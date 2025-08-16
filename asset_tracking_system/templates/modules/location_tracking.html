@@ -1,0 +1,119 @@
+<!-- 位置追踪模块 -->
+<div class="stats-grid">
+  <div class="stat-card">
+    <div class="icon"><i class="fas fa-satellite-dish"></i></div>
+    <div class="number">{{ online_devices }}</div>
+    <div class="label">在线设备</div>
+  </div>
+  <div class="stat-card">
+    <div class="icon"><i class="fas fa-map-marker-alt"></i></div>
+    <div class="number">{{ total_areas }}</div>
+    <div class="label">追踪区域</div>
+  </div>
+  <div class="stat-card">
+    <div class="icon"><i class="fas fa-signal"></i></div>
+    <div class="number">{{ avg_signal }}dBm</div>
+    <div class="label">平均信号强度</div>
+  </div>
+  <div class="stat-card">
+    <div class="icon"><i class="fas fa-clock"></i></div>
+    <div class="number">{{ avg_delay }}ms</div>
+    <div class="label">平均延迟</div>
+  </div>
+</div>
+
+<div class="card">
+  <div class="card-header">
+    <h3>实时位置监控</h3>
+    <button class="btn btn-primary" onclick="refreshLocationData()">
+      <i class="fas fa-sync-alt"></i> 刷新位置
+    </button>
+  </div>
+  <div class="card-body">
+    <!-- 室内地图 -->
+    <div
+      id="indoor-map-container"
+      style="
+        height: 400px;
+        margin-bottom: 20px;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        overflow: hidden;
+      "
+    ></div>
+
+    <table class="table">
+      <thead>
+        <tr>
+          <th>资产编码</th>
+          <th>资产名称</th>
+          <th>当前位置</th>
+          <th>使用人员</th>
+          <th>借用人</th>
+          <th>信号强度</th>
+          <th>最后更新</th>
+          <th>状态</th>
+          <th>操作</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for location in locations %}
+        <tr>
+          <td>{{ location.asset_code }}</td>
+          <td>{{ location.asset_name }}</td>
+          <td>{{ location.current_location }}</td>
+          <td>{{ location.user_name or '未分配' }}</td>
+          <td>
+            {% if location.borrower_name %}
+            <span style="color: #f39c12; font-weight: bold"
+              >{{ location.borrower_name }}</span
+            >
+            {% else %}
+            <span style="color: #95a5a6">-</span>
+            {% endif %}
+          </td>
+          <td>
+            {% if location.signal_strength %} {{ location.signal_strength }}dBm
+            {% else %} - {% endif %}
+          </td>
+          <td>
+            {% if location.timestamp %} {{ location.timestamp }} {% else %} 未知
+            {% endif %}
+          </td>
+          <td>
+            {% if location.signal_strength %}
+            <span class="status-badge status-available">在线</span>
+            {% else %}
+            <span class="status-badge status-maintenance">离线</span>
+            {% endif %}
+          </td>
+          <td>
+            <button
+              class="btn btn-primary btn-sm"
+              onclick="locateAsset({{ location.id }})"
+            >
+              定位
+            </button>
+            <button
+              class="btn btn-success btn-sm"
+              onclick="showTrajectory({{ location.id }})"
+            >
+              轨迹
+            </button>
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<script src="{{ url_for('static', filename='js/indoor-map.js') }}"></script>
+<script>
+  // 页面加载完成后初始化地图
+  document.addEventListener("DOMContentLoaded", function () {
+    if (window.location.pathname.includes("location_tracking")) {
+      initIndoorMap();
+    }
+  });
+</script>

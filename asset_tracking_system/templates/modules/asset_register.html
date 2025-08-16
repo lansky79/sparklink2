@@ -1,0 +1,94 @@
+<!-- 资产登记模块 -->
+<div class="stats-grid">
+  <div class="stat-card">
+    <div class="icon"><i class="fas fa-laptop"></i></div>
+    <div class="content">
+      <div class="number">{{ total_assets }}</div>
+      <div class="label">总资产数量</div>
+    </div>
+  </div>
+  <div class="stat-card">
+    <div class="icon"><i class="fas fa-check-circle"></i></div>
+    <div class="content">
+      <div class="number">{{ available_assets }}</div>
+      <div class="label">可用资产</div>
+    </div>
+  </div>
+  <div class="stat-card">
+    <div class="icon"><i class="fas fa-handshake"></i></div>
+    <div class="content">
+      <div class="number">{{ borrowed_assets }}</div>
+      <div class="label">借用中</div>
+    </div>
+  </div>
+  <div class="stat-card">
+    <div class="icon"><i class="fas fa-tools"></i></div>
+    <div class="content">
+      <div class="number">{{ maintenance_assets }}</div>
+      <div class="label">维护中</div>
+    </div>
+  </div>
+</div>
+
+<div class="card">
+  <div
+    class="card-header"
+    style="display: flex; justify-content: space-between; align-items: center"
+  >
+    <h3>资产登记管理</h3>
+    <button class="btn btn-primary" onclick="showAssetForm()">
+      <i class="fas fa-plus"></i> 新增资产
+    </button>
+  </div>
+  <div class="card-body">
+    <table class="table">
+      <thead>
+        <tr>
+          <th>资产编码</th>
+          <th>资产名称</th>
+          <th>类别</th>
+          <th>品牌型号</th>
+          <th>当前位置</th>
+          <th>星闪标签</th>
+          <th>状态</th>
+          <th>操作</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for asset in assets %}
+        <tr data-asset-id="{{ asset.id }}">
+          <td>{{ asset.asset_code }}</td>
+          <td>{{ asset.asset_name }}</td>
+          <td>{{ asset.category }}</td>
+          <td>{{ asset.brand }} {{ asset.model }}</td>
+          <td>{{ asset.current_location }}</td>
+          <td>{{ asset.star_flash_tag_id }}</td>
+          <td>
+            {% if asset.status == 'available' %}
+            <span class="status-badge status-available">可用</span>
+            {% elif asset.status == 'borrowed' %}
+            <span class="status-badge status-borrowed">借用中</span>
+            {% elif asset.status == 'maintenance' %}
+            <span class="status-badge status-maintenance">维护中</span>
+            {% endif %}
+          </td>
+          <td>
+            <button
+              class="btn btn-warning btn-sm"
+              onclick="editAsset({{ asset.id }})"
+            >
+              编辑
+            </button>
+            <button
+              class="btn btn-danger btn-sm"
+              onclick="deleteAsset({{ asset.id }})"
+            >
+              删除
+            </button>
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>

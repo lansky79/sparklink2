@@ -1,0 +1,179 @@
+<!-- 权限管理模块 -->
+<div class="stats-grid">
+  <div class="stat-card">
+    <div class="icon"><i class="fas fa-users"></i></div>
+    <div class="number">28</div>
+    <div class="label">系统用户</div>
+  </div>
+  <div class="stat-card">
+    <div class="icon"><i class="fas fa-user-shield"></i></div>
+    <div class="number">3</div>
+    <div class="label">管理员</div>
+  </div>
+  <div class="stat-card">
+    <div class="icon"><i class="fas fa-user-check"></i></div>
+    <div class="number">25</div>
+    <div class="label">活跃用户</div>
+  </div>
+  <div class="stat-card">
+    <div class="icon"><i class="fas fa-key"></i></div>
+    <div class="number">5</div>
+    <div class="label">权限角色</div>
+  </div>
+</div>
+
+<div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px">
+  <div class="card">
+    <div class="card-header">
+      <h3>用户管理</h3>
+      <button class="btn btn-primary" onclick="showUserForm()">
+        <i class="fas fa-user-plus"></i> 新增用户
+      </button>
+    </div>
+    <div class="card-body">
+      <table class="table">
+        <thead>
+          <tr>
+            <th>用户名</th>
+            <th>姓名</th>
+            <th>部门</th>
+            <th>角色</th>
+            <th>状态</th>
+            <th>操作</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>admin</td>
+            <td>系统管理员</td>
+            <td>IT部</td>
+            <td>超级管理员</td>
+            <td><span class="status-badge status-available">正常</span></td>
+            <td>
+              <button class="btn btn-warning btn-sm" onclick="editUser(1)">
+                编辑
+              </button>
+            </td>
+          </tr>
+          <tr>
+            <td>zhangsan</td>
+            <td>张三</td>
+            <td>市场部</td>
+            <td>普通用户</td>
+            <td><span class="status-badge status-available">正常</span></td>
+            <td>
+              <button class="btn btn-warning btn-sm" onclick="editUser(2)">
+                编辑
+              </button>
+              <button class="btn btn-danger btn-sm" onclick="disableUser(2)">
+                禁用
+              </button>
+            </td>
+          </tr>
+          <tr>
+            <td>lisi</td>
+            <td>李四</td>
+            <td>销售部</td>
+            <td>部门管理员</td>
+            <td><span class="status-badge status-available">正常</span></td>
+            <td>
+              <button class="btn btn-warning btn-sm" onclick="editUser(3)">
+                编辑
+              </button>
+              <button class="btn btn-danger btn-sm" onclick="disableUser(3)">
+                禁用
+              </button>
+            </td>
+          </tr>
+          <tr>
+            <td>wangwu</td>
+            <td>王五</td>
+            <td>研发部</td>
+            <td>普通用户</td>
+            <td><span class="status-badge status-maintenance">禁用</span></td>
+            <td>
+              <button class="btn btn-warning btn-sm" onclick="editUser(4)">
+                编辑
+              </button>
+              <button class="btn btn-success btn-sm" onclick="enableUser(4)">
+                启用
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header">
+      <h3>角色权限</h3>
+      <button class="btn btn-primary" onclick="showRoleForm()">
+        <i class="fas fa-plus"></i> 新增角色
+      </button>
+    </div>
+    <div class="card-body">
+      <table class="table">
+        <thead>
+          <tr>
+            <th>角色名称</th>
+            <th>权限描述</th>
+            <th>用户数</th>
+            <th>操作</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>超级管理员</td>
+            <td>所有权限</td>
+            <td>1</td>
+            <td>
+              <button class="btn btn-primary btn-sm" onclick="viewRole(1)">
+                查看
+              </button>
+            </td>
+          </tr>
+          <tr>
+            <td>资产管理员</td>
+            <td>资产增删改查</td>
+            <td>2</td>
+            <td>
+              <button class="btn btn-primary btn-sm" onclick="viewRole(2)">
+                查看
+              </button>
+              <button class="btn btn-warning btn-sm" onclick="editRole(2)">
+                编辑
+              </button>
+            </td>
+          </tr>
+          <tr>
+            <td>部门管理员</td>
+            <td>部门资产管理</td>
+            <td>5</td>
+            <td>
+              <button class="btn btn-primary btn-sm" onclick="viewRole(3)">
+                查看
+              </button>
+              <button class="btn btn-warning btn-sm" onclick="editRole(3)">
+                编辑
+              </button>
+            </td>
+          </tr>
+          <tr>
+            <td>普通用户</td>
+            <td>借用归还查看</td>
+            <td>20</td>
+            <td>
+              <button class="btn btn-primary btn-sm" onclick="viewRole(4)">
+                查看
+              </button>
+              <button class="btn btn-warning btn-sm" onclick="editRole(4)">
+                编辑
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

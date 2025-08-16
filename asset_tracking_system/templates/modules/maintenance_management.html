@@ -1,0 +1,107 @@
+<!-- 维护管理模块 -->
+<div class="stats-grid">
+  <div class="stat-card">
+    <div class="icon"><i class="fas fa-tools"></i></div>
+    <div class="number">8</div>
+    <div class="label">维护中设备</div>
+  </div>
+  <div class="stat-card">
+    <div class="icon"><i class="fas fa-calendar-check"></i></div>
+    <div class="number">15</div>
+    <div class="label">计划维护</div>
+  </div>
+  <div class="stat-card">
+    <div class="icon"><i class="fas fa-wrench"></i></div>
+    <div class="number">42</div>
+    <div class="label">本月完成</div>
+  </div>
+  <div class="stat-card">
+    <div class="icon"><i class="fas fa-dollar-sign"></i></div>
+    <div class="number">¥12,580</div>
+    <div class="label">维护费用</div>
+  </div>
+</div>
+
+<div class="card">
+  <div class="card-header">
+    <h3>维护记录管理</h3>
+    <button class="btn btn-primary">
+      <i class="fas fa-plus"></i> 新增维护
+    </button>
+  </div>
+  <div class="card-body">
+    <table class="table">
+      <thead>
+        <tr>
+          <th>维护编号</th>
+          <th>资产名称</th>
+          <th>维护类型</th>
+          <th>维护日期</th>
+          <th>维护人员</th>
+          <th>费用</th>
+          <th>下次维护</th>
+          <th>状态</th>
+          <th>操作</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>MT001</td>
+          <td>显示器</td>
+          <td>故障维修</td>
+          <td>2024-01-10</td>
+          <td>技术部-小李</td>
+          <td>¥350</td>
+          <td>2024-07-10</td>
+          <td><span class="status-badge status-maintenance">维护中</span></td>
+          <td>
+            <button class="btn btn-success btn-sm">完成</button>
+            <button class="btn btn-warning btn-sm">编辑</button>
+          </td>
+        </tr>
+        <tr>
+          <td>MT002</td>
+          <td>打印机</td>
+          <td>定期保养</td>
+          <td>2024-01-08</td>
+          <td>外包-张师傅</td>
+          <td>¥200</td>
+          <td>2024-04-08</td>
+          <td><span class="status-badge status-available">已完成</span></td>
+          <td>
+            <button class="btn btn-primary btn-sm">查看</button>
+            <button class="btn btn-warning btn-sm">编辑</button>
+          </td>
+        </tr>
+        <tr>
+          <td>MT003</td>
+          <td>投影仪</td>
+          <td>清洁保养</td>
+          <td>2024-01-12</td>
+          <td>行政部-小王</td>
+          <td>¥0</td>
+          <td>2024-04-12</td>
+          <td><span class="status-badge status-available">已完成</span></td>
+          <td>
+            <button class="btn btn-primary btn-sm">查看</button>
+            <button class="btn btn-warning btn-sm">编辑</button>
+          </td>
+        </tr>
+        <tr>
+          <td>MT004</td>
+          <td>笔记本电脑</td>
+          <td>系统升级</td>
+          <td>2024-01-15</td>
+          <td>IT部-小赵</td>
+          <td>¥0</td>
+          <td>2024-07-15</td>
+          <td><span class="status-badge status-borrowed">计划中</span></td>
+          <td>
+            <button class="btn btn-success btn-sm">开始</button>
+            <button class="btn btn-warning btn-sm">编辑</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

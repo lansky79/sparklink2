@@ -1,0 +1,120 @@
+<!-- 盘点核查模块 -->
+<div class="stats-grid">
+  <div class="stat-card">
+    <div class="icon"><i class="fas fa-search"></i></div>
+    <div class="number">156</div>
+    <div class="label">应盘资产</div>
+  </div>
+  <div class="stat-card">
+    <div class="icon"><i class="fas fa-check-circle"></i></div>
+    <div class="number">142</div>
+    <div class="label">已盘点</div>
+  </div>
+  <div class="stat-card">
+    <div class="icon"><i class="fas fa-question-circle"></i></div>
+    <div class="number">14</div>
+    <div class="label">待核查</div>
+  </div>
+  <div class="stat-card">
+    <div class="icon"><i class="fas fa-percentage"></i></div>
+    <div class="number">91%</div>
+    <div class="label">盘点进度</div>
+  </div>
+</div>
+
+<div class="card">
+  <div class="card-header">
+    <h3>盘点核查管理</h3>
+    <div>
+      <button class="btn btn-success">
+        <i class="fas fa-play"></i> 开始盘点
+      </button>
+      <button class="btn btn-primary">
+        <i class="fas fa-download"></i> 导出报告
+      </button>
+    </div>
+  </div>
+  <div class="card-body">
+    <table class="table">
+      <thead>
+        <tr>
+          <th>资产编码</th>
+          <th>资产名称</th>
+          <th>预期位置</th>
+          <th>实际位置</th>
+          <th>盘点日期</th>
+          <th>盘点人员</th>
+          <th>状态</th>
+          <th>操作</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>LAPTOP001</td>
+          <td>联想ThinkPad X1</td>
+          <td>研发部-A区</td>
+          <td>研发部-A区-工位03</td>
+          <td>2024-01-15</td>
+          <td>盘点员-小张</td>
+          <td><span class="status-badge status-available">正常</span></td>
+          <td>
+            <button class="btn btn-primary btn-sm">查看</button>
+            <button class="btn btn-success btn-sm">确认</button>
+          </td>
+        </tr>
+        <tr>
+          <td>PROJ002</td>
+          <td>爱普生投影仪</td>
+          <td>会议室-201</td>
+          <td>会议室-301</td>
+          <td>2024-01-15</td>
+          <td>盘点员-小李</td>
+          <td><span class="status-badge status-borrowed">位置异常</span></td>
+          <td>
+            <button class="btn btn-warning btn-sm">核查</button>
+            <button class="btn btn-danger btn-sm">报告</button>
+          </td>
+        </tr>
+        <tr>
+          <td>DESK003</td>
+          <td>办公桌椅套装</td>
+          <td>行政部-B区</td>
+          <td>行政部-B区</td>
+          <td>2024-01-15</td>
+          <td>盘点员-小王</td>
+          <td><span class="status-badge status-available">正常</span></td>
+          <td>
+            <button class="btn btn-primary btn-sm">查看</button>
+            <button class="btn btn-success btn-sm">确认</button>
+          </td>
+        </tr>
+        <tr>
+          <td>PRINT004</td>
+          <td>激光打印机</td>
+          <td>行政部-打印区</td>
+          <td>未找到</td>
+          <td>2024-01-15</td>
+          <td>盘点员-小赵</td>
+          <td><span class="status-badge status-maintenance">缺失</span></td>
+          <td>
+            <button class="btn btn-warning btn-sm">查找</button>
+            <button class="btn btn-danger btn-sm">报告</button>
+          </td>
+        </tr>
+        <tr>
+          <td>MONITOR005</td>
+          <td>显示器</td>
+          <td>研发部-B区</td>
+          <td>-</td>
+          <td>-</td>
+          <td>-</td>
+          <td><span class="status-badge status-borrowed">待盘点</span></td>
+          <td>
+            <button class="btn btn-success btn-sm">开始</button>
+            <button class="btn btn-primary btn-sm">定位</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

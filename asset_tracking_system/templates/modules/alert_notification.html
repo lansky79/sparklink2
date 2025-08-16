@@ -1,0 +1,96 @@
+<!-- 告警通知模块 -->
+<div class="stats-grid">
+  <div class="stat-card">
+    <div class="icon"><i class="fas fa-bell"></i></div>
+    <div class="number">{{ unread_alerts }}</div>
+    <div class="label">未读告警</div>
+  </div>
+  <div class="stat-card">
+    <div class="icon"><i class="fas fa-exclamation-triangle"></i></div>
+    <div class="number">{{ high_alerts }}</div>
+    <div class="label">高级告警</div>
+  </div>
+  <div class="stat-card">
+    <div class="icon"><i class="fas fa-check-circle"></i></div>
+    <div class="number">{{ resolved_alerts }}</div>
+    <div class="label">已处理</div>
+  </div>
+  <div class="stat-card">
+    <div class="icon"><i class="fas fa-clock"></i></div>
+    <div class="number">2.5小时</div>
+    <div class="label">平均响应时间</div>
+  </div>
+</div>
+
+<div class="card">
+  <div class="card-header">
+    <h3>告警通知管理</h3>
+    <div>
+      <button class="btn btn-success" onclick="markAllAlertsRead()">
+        <i class="fas fa-check"></i> 全部已读
+      </button>
+      <button class="btn btn-primary" onclick="showAlertSettings()">
+        <i class="fas fa-cog"></i> 告警设置
+      </button>
+    </div>
+  </div>
+  <div class="card-body">
+    <table class="table">
+      <thead>
+        <tr>
+          <th>告警类型</th>
+          <th>资产名称</th>
+          <th>告警内容</th>
+          <th>严重程度</th>
+          <th>发生时间</th>
+          <th>状态</th>
+          <th>操作</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for alert in alerts %}
+        <tr data-alert-id="{{ alert.id }}">
+          <td>{{ alert.alert_type }}</td>
+          <td>{{ alert.asset_name or '系统' }}</td>
+          <td>{{ alert.message }}</td>
+          <td>
+            {% if alert.severity == 'high' %}
+            <span class="status-badge status-maintenance">高级</span>
+            {% elif alert.severity == 'medium' %}
+            <span class="status-badge status-borrowed">中级</span>
+            {% else %}
+            <span class="status-badge status-available">低级</span>
+            {% endif %}
+          </td>
+          <td>{{ alert.created_at }}</td>
+          <td>
+            {% if alert.status == 'unread' %}
+            <span class="status-badge status-borrowed">未读</span>
+            {% elif alert.status == 'resolved' %}
+            <span class="status-badge status-available">已处理</span>
+            {% else %}
+            <span class="status-badge status-available">已读</span>
+            {% endif %}
+          </td>
+          <td>
+            <button
+              class="btn btn-primary btn-sm"
+              onclick="viewAlert({{ alert.id }})"
+            >
+              查看
+            </button>
+            {% if alert.status != 'resolved' %}
+            <button
+              class="btn btn-success btn-sm"
+              onclick="resolveAlert({{ alert.id }})"
+            >
+              处理
+            </button>
+            {% endif %}
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>

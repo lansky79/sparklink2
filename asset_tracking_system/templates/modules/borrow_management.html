@@ -1,0 +1,97 @@
+<!-- 借用管理模块 -->
+<div class="stats-grid">
+  <div class="stat-card">
+    <div class="icon"><i class="fas fa-handshake"></i></div>
+    <div class="number">{{ current_borrows }}</div>
+    <div class="label">当前借用</div>
+  </div>
+  <div class="stat-card">
+    <div class="icon"><i class="fas fa-clock"></i></div>
+    <div class="number">
+      {{ (borrows|selectattr('expected_return_date')|list|length) -
+      overdue_borrows }}
+    </div>
+    <div class="label">即将到期</div>
+  </div>
+  <div class="stat-card">
+    <div class="icon"><i class="fas fa-exclamation-circle"></i></div>
+    <div class="number">{{ overdue_borrows }}</div>
+    <div class="label">已逾期</div>
+  </div>
+  <div class="stat-card">
+    <div class="icon"><i class="fas fa-undo"></i></div>
+    <div class="number">
+      {{ borrows|selectattr('status', 'equalto', 'returned')|list|length }}
+    </div>
+    <div class="label">已归还</div>
+  </div>
+</div>
+
+<div class="card">
+  <div class="card-header">
+    <h3>借用记录管理</h3>
+    <button class="btn btn-primary" onclick="showBorrowForm()">
+      <i class="fas fa-plus"></i> 新增借用
+    </button>
+  </div>
+  <div class="card-body">
+    <table class="table">
+      <thead>
+        <tr>
+          <th>借用编号</th>
+          <th>资产名称</th>
+          <th>借用人</th>
+          <th>部门</th>
+          <th>借用日期</th>
+          <th>预计归还</th>
+          <th>状态</th>
+          <th>操作</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for borrow in borrows %}
+        <tr data-borrow-id="{{ borrow.id }}">
+          <td>BR{{ "%03d"|format(borrow.id) }}</td>
+          <td>{{ borrow.asset_name }}</td>
+          <td>{{ borrow.borrower_name }}</td>
+          <td>{{ borrow.borrower_department }}</td>
+          <td>{{ borrow.borrow_date }}</td>
+          <td>{{ borrow.expected_return_date }}</td>
+          <td>
+            {% if borrow.status == 'borrowed' %}
+            <span class="status-badge status-borrowed">借用中</span>
+            {% elif borrow.status == 'returned' %}
+            <span class="status-badge status-available">已归还</span>
+            {% else %}
+            <span class="status-badge status-maintenance">逾期</span>
+            {% endif %}
+          </td>
+          <td>
+            {% if borrow.status == 'borrowed' %}
+            <button
+              class="btn btn-success btn-sm"
+              onclick="returnAsset({{ borrow.id }})"
+            >
+              归还
+            </button>
+            <button
+              class="btn btn-warning btn-sm"
+              onclick="extendBorrow({{ borrow.id }})"
+            >
+              延期
+            </button>
+            {% else %}
+            <button
+              class="btn btn-primary btn-sm"
+              onclick="viewBorrow({{ borrow.id }})"
+            >
+              查看
+            </button>
+            {% endif %}
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
