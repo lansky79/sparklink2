@@ -39,6 +39,7 @@
       <thead>
         <tr>
           <th>告警类型</th>
+          <th>资产编号</th>
           <th>资产名称</th>
           <th>告警内容</th>
           <th>严重程度</th>
@@ -51,6 +52,7 @@
         {% for alert in alerts %}
         <tr data-alert-id="{{ alert.id }}">
           <td>{{ alert.alert_type }}</td>
+          <td><strong>{{ alert.asset_code or '-' }}</strong></td>
           <td>{{ alert.asset_name or '系统' }}</td>
           <td>{{ alert.message }}</td>
           <td>

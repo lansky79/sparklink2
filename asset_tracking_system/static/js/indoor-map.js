@@ -29,7 +29,7 @@ class RealisticOfficeFloorPlan {
             text-shadow: 0 2px 4px rgba(0,0,0,0.3);
         `;
     title.innerHTML =
-      '<i class="fas fa-building"></i> 智能科技大厦 - 15F 办公楼层平面图';
+      '<i class="fas fa-building"></i> 设备资产定位管理系统 - 15F 办公楼层平面图';
     this.container.appendChild(title);
 
     // 创建地图容器
@@ -202,7 +202,7 @@ class RealisticOfficeFloorPlan {
     buildingName.setAttribute("font-size", "16");
     buildingName.setAttribute("font-weight", "bold");
     buildingName.setAttribute("fill", "#2c3e50");
-    buildingName.textContent = "智能科技大厦 15F";
+    buildingName.textContent = "设备资产定位管理系统 15F";
     this.svg.appendChild(buildingName);
   }
 
@@ -583,17 +583,17 @@ class RealisticOfficeFloorPlan {
   loadDeviceLocations() {
     // 真实的设备位置分布 - 根据新布局调整坐标
     const deviceLocations = [
-      // 上半部分设备
+      // 上半部分设备 - 确保在办公区域内（浅蓝色范围）
       {
         id: 1,
         name: "LAPTOP001",
         type: "laptop",
         x: 120,
-        y: 130,
+        y: 120,
         status: "online",
         area: "研发部",
         user: "陈志华",
-        location: "研发部-工位R12",
+        location: "15F-研发部-工位R12",
         brand: "联想",
         model: "ThinkPad P1 Gen4",
         borrower: null,
@@ -607,7 +607,7 @@ class RealisticOfficeFloorPlan {
         status: "borrowed",
         area: "设计部",
         user: "刘美玲",
-        location: "设计部-工位D05",
+        location: "15F-设计部-工位D05",
         brand: "戴尔",
         model: "Precision 7560",
         borrower: "王建国",
@@ -616,12 +616,12 @@ class RealisticOfficeFloorPlan {
         id: 3,
         name: "SERVER003",
         type: "server",
-        x: 800,
-        y: 130,
+        x: 780,
+        y: 120,
         status: "online",
         area: "机房",
         user: "系统管理",
-        location: "机房-机柜A15",
+        location: "15F-机房-机柜A15",
         brand: "华为",
         model: "FusionServer 2288H V5",
         borrower: null,
@@ -631,11 +631,11 @@ class RealisticOfficeFloorPlan {
         name: "WORKSTATION007",
         type: "workstation",
         x: 160,
-        y: 150,
+        y: 180,
         status: "borrowed",
         area: "研发部",
         user: "胡建军",
-        location: "研发部-工位R08",
+        location: "15F-研发部-工位R08",
         brand: "惠普",
         model: "ZBook Fury 17 G8",
         borrower: "李明华",
@@ -644,12 +644,12 @@ class RealisticOfficeFloorPlan {
         id: 5,
         name: "SERVER006",
         type: "server",
-        x: 850,
-        y: 150,
+        x: 820,
+        y: 180,
         status: "online",
         area: "机房",
         user: "系统管理",
-        location: "机房-存储区",
+        location: "15F-机房-存储区",
         brand: "戴尔",
         model: "PowerVault ME4012",
         borrower: null,
@@ -659,17 +659,17 @@ class RealisticOfficeFloorPlan {
         name: "LAPTOP005",
         type: "laptop",
         x: 620,
-        y: 130,
-        status: "online",
+        y: 120,
+        status: "borrowed",
         area: "市场部",
         user: "孙丽娟",
-        location: "市场部-工位M03",
+        location: "15F-市场部-工位M03",
         brand: "苹果",
         model: 'MacBook Pro 16"',
-        borrower: null,
+        borrower: "张小明",
       },
 
-      // 下半部分设备
+      // 下半部分设备 - 确保在办公区域内（浅蓝色范围）
       {
         id: 7,
         name: "CAMERA013",
@@ -679,7 +679,7 @@ class RealisticOfficeFloorPlan {
         status: "borrowed",
         area: "行政部",
         user: "赵雅琴",
-        location: "行政部-会议室",
+        location: "15F-行政部-会议室",
         brand: "佳能",
         model: "EOS R5",
         borrower: "张志强",
@@ -693,7 +693,7 @@ class RealisticOfficeFloorPlan {
         status: "online",
         area: "产品部",
         user: "张小明",
-        location: "产品部-工位P08",
+        location: "15F-产品部-工位P08",
         brand: "华硕",
         model: "ROG Strix G15",
         borrower: null,
@@ -707,7 +707,7 @@ class RealisticOfficeFloorPlan {
         status: "online",
         area: "技术部",
         user: "系统管理",
-        location: "技术部-网络机柜",
+        location: "15F-技术部-网络机柜",
         brand: "华为",
         model: "AR6300",
         borrower: null,
@@ -716,12 +716,12 @@ class RealisticOfficeFloorPlan {
         id: 10,
         name: "LAPTOP010",
         type: "laptop",
-        x: 350,
+        x: 380,
         y: 420,
         status: "borrowed",
         area: "技术部",
         user: "李建国",
-        location: "技术部-工位T05",
+        location: "15F-技术部-工位T05",
         brand: "联想",
         model: "ThinkPad X1 Carbon",
         borrower: "陈晓东",
@@ -732,13 +732,13 @@ class RealisticOfficeFloorPlan {
         type: "workstation",
         x: 480,
         y: 380,
-        status: "online",
+        status: "borrowed",
         area: "运维部",
         user: "王建华",
-        location: "运维部-工位O12",
+        location: "15F-运维部-工位O12",
         brand: "戴尔",
         model: "Precision 7000",
-        borrower: null,
+        borrower: "刘小华",
       },
       {
         id: 12,
@@ -749,9 +749,348 @@ class RealisticOfficeFloorPlan {
         status: "maintenance",
         area: "测试部",
         user: "维护中",
-        location: "测试部-设备柜",
+        location: "15F-测试部-设备柜",
         brand: "大疆",
         model: "Air 2S",
+        borrower: null,
+      },
+      // 新增设备 - 第二批，确保在办公区域内
+      {
+        id: 13,
+        name: "LAPTOP013",
+        type: "laptop",
+        x: 100,
+        y: 100,
+        status: "online",
+        area: "研发部",
+        user: "李小明",
+        location: "15F-研发部-工位R03",
+        brand: "华硕",
+        model: "ROG Strix G15",
+        borrower: null,
+      },
+      {
+        id: 14,
+        name: "LAPTOP014",
+        type: "laptop",
+        x: 180,
+        y: 100,
+        status: "borrowed",
+        area: "研发部",
+        user: "王小华",
+        location: "15F-研发部-工位R15",
+        brand: "戴尔",
+        model: "Precision 7000",
+        borrower: "张三",
+      },
+      {
+        id: 15,
+        name: "TABLET015",
+        type: "tablet",
+        x: 260,
+        y: 140,
+        status: "online",
+        area: "设计部",
+        user: "赵小丽",
+        location: "15F-设计部-工位D08",
+        brand: "苹果",
+        model: "iPad Pro 11",
+        borrower: null,
+      },
+      {
+        id: 16,
+        name: "CAMERA016",
+        type: "camera",
+        x: 300,
+        y: 120,
+        status: "borrowed",
+        area: "设计部",
+        user: "孙小强",
+        location: "15F-设计部-摄影区",
+        brand: "索尼",
+        model: "A7R5",
+        borrower: "李四",
+      },
+      {
+        id: 17,
+        name: "ROUTER017",
+        type: "router",
+        x: 600,
+        y: 100,
+        status: "online",
+        area: "市场部",
+        user: "系统管理",
+        location: "15F-市场部-网络柜",
+        brand: "思科",
+        model: "ISR4331",
+        borrower: null,
+      },
+      {
+        id: 18,
+        name: "LAPTOP018",
+        type: "laptop",
+        x: 650,
+        y: 160,
+        status: "borrowed",
+        area: "市场部",
+        user: "周小芳",
+        location: "15F-市场部-工位M08",
+        brand: "联想",
+        model: "ThinkPad X1",
+        borrower: "王五",
+      },
+      {
+        id: 19,
+        name: "SERVER019",
+        type: "server",
+        x: 750,
+        y: 100,
+        status: "online",
+        area: "机房",
+        user: "系统管理",
+        location: "15F-机房-机柜B01",
+        brand: "浪潮",
+        model: "NF5280M6",
+        borrower: null,
+      },
+      {
+        id: 20,
+        name: "SERVER020",
+        type: "server",
+        x: 850,
+        y: 160,
+        status: "maintenance",
+        area: "机房",
+        user: "维护中",
+        location: "15F-机房-机柜B05",
+        brand: "华为",
+        model: "RH2288H V5",
+        borrower: null,
+      },
+      // 新增设备 - 第三批，确保在办公区域内
+      {
+        id: 21,
+        name: "PRINTER021",
+        type: "printer",
+        x: 90,
+        y: 320,
+        status: "online",
+        area: "行政部",
+        user: "公共设备",
+        location: "15F-行政部-打印区",
+        brand: "惠普",
+        model: "LaserJet Pro",
+        borrower: null,
+      },
+      {
+        id: 22,
+        name: "LAPTOP022",
+        type: "laptop",
+        x: 130,
+        y: 450,
+        status: "borrowed",
+        area: "行政部",
+        user: "陈小红",
+        location: "15F-行政部-工位A05",
+        brand: "联想",
+        model: "ThinkBook 14",
+        borrower: "王五",
+      },
+      {
+        id: 23,
+        name: "TABLET023",
+        type: "tablet",
+        x: 220,
+        y: 320,
+        status: "online",
+        area: "产品部",
+        user: "刘小军",
+        location: "15F-产品部-工位P03",
+        brand: "华为",
+        model: "MatePad Pro",
+        borrower: null,
+      },
+      {
+        id: 24,
+        name: "LAPTOP024",
+        type: "laptop",
+        x: 280,
+        y: 450,
+        status: "borrowed",
+        area: "产品部",
+        user: "杨小梅",
+        location: "15F-产品部-工位P12",
+        brand: "苹果",
+        model: "MacBook Air",
+        borrower: "赵六",
+      },
+      {
+        id: 25,
+        name: "ROUTER025",
+        type: "router",
+        x: 360,
+        y: 320,
+        status: "online",
+        area: "技术部",
+        user: "系统管理",
+        location: "15F-技术部-核心机柜",
+        brand: "华为",
+        model: "AR6280",
+        borrower: null,
+      },
+      {
+        id: 26,
+        name: "LAPTOP026",
+        type: "laptop",
+        x: 390,
+        y: 450,
+        status: "borrowed",
+        area: "技术部",
+        user: "马小东",
+        location: "15F-技术部-工位T08",
+        brand: "戴尔",
+        model: "Latitude 7420",
+        borrower: "孙七",
+      },
+      {
+        id: 27,
+        name: "SERVER027",
+        type: "server",
+        x: 460,
+        y: 320,
+        status: "online",
+        area: "运维部",
+        user: "系统管理",
+        location: "15F-运维部-监控中心",
+        brand: "浪潮",
+        model: "SA5212M5",
+        borrower: null,
+      },
+      {
+        id: 28,
+        name: "LAPTOP028",
+        type: "laptop",
+        x: 510,
+        y: 450,
+        status: "borrowed",
+        area: "运维部",
+        user: "吴小亮",
+        location: "15F-运维部-工位O06",
+        brand: "联想",
+        model: "ThinkPad P15",
+        borrower: "周八",
+      },
+      {
+        id: 29,
+        name: "DRONE029",
+        type: "drone",
+        x: 560,
+        y: 320,
+        status: "online",
+        area: "测试部",
+        user: "测试组",
+        location: "15F-测试部-飞行区",
+        brand: "大疆",
+        model: "Mini 3 Pro",
+        borrower: null,
+      },
+      {
+        id: 30,
+        name: "CAMERA030",
+        type: "camera",
+        x: 600,
+        y: 450,
+        status: "borrowed",
+        area: "测试部",
+        user: "林小峰",
+        location: "15F-测试部-工位T03",
+        brand: "佳能",
+        model: "EOS R6",
+        borrower: "李九",
+      },
+      // 新增设备 - 第四批，确保在办公区域内
+      {
+        id: 31,
+        name: "LAPTOP031",
+        type: "laptop",
+        x: 140,
+        y: 190,
+        status: "borrowed",
+        area: "研发部",
+        user: "何小波",
+        location: "15F-研发部-工位R20",
+        brand: "华硕",
+        model: "ZenBook Pro",
+        borrower: "陈十",
+      },
+      {
+        id: 32,
+        name: "PROJECTOR032",
+        type: "projector",
+        x: 280,
+        y: 180,
+        status: "online",
+        area: "设计部",
+        user: "公共设备",
+        location: "15F-设计部-会议室",
+        brand: "明基",
+        model: "TK700STi",
+        borrower: null,
+      },
+      {
+        id: 33,
+        name: "TABLET033",
+        type: "tablet",
+        x: 640,
+        y: 180,
+        status: "borrowed",
+        area: "市场部",
+        user: "会议设备",
+        location: "15F-市场部-会议室",
+        brand: "微软",
+        model: "Surface Pro 9",
+        borrower: "刘十一",
+      },
+      {
+        id: 34,
+        name: "LAPTOP034",
+        type: "laptop",
+        x: 150,
+        y: 400,
+        status: "online",
+        area: "行政部",
+        user: "郑小慧",
+        location: "15F-行政部-工位A08",
+        brand: "惠普",
+        model: "EliteBook 840",
+        borrower: null,
+      },
+      {
+        id: 35,
+        name: "ROUTER035",
+        type: "router",
+        x: 320,
+        y: 400,
+        status: "online",
+        area: "产品部",
+        user: "系统管理",
+        location: "15F-产品部-网络间",
+        brand: "思科",
+        model: "ISR4321",
+        borrower: null,
+      },
+      {
+        id: 36,
+        name: "LAPTOP036",
+        type: "laptop",
+        x: 580,
+        y: 380,
+        status: "maintenance",
+        area: "测试部",
+        user: "维护中",
+        location: "15F-测试部-维修台",
+        brand: "戴尔",
+        model: "XPS 15",
         borrower: null,
       },
     ];
@@ -767,30 +1106,14 @@ class RealisticOfficeFloorPlan {
     group.setAttribute("class", "device-marker");
     group.setAttribute("data-device-id", device.id);
 
-    // 设备位置指示器（静态圆圈，不闪烁）
-    const pulseCircle = document.createElementNS(
-      "http://www.w3.org/2000/svg",
-      "circle"
-    );
-    pulseCircle.setAttribute("cx", device.x);
-    pulseCircle.setAttribute("cy", device.y);
-    pulseCircle.setAttribute("r", "15");
-    pulseCircle.setAttribute("fill", "none");
-    pulseCircle.setAttribute("stroke", this.getStatusColor(device.status));
-    pulseCircle.setAttribute("stroke-width", "2");
-    pulseCircle.setAttribute("opacity", "0.4");
-    pulseCircle.setAttribute("class", "device-pulse-circle");
-
-    group.appendChild(pulseCircle);
-
-    // 设备图标背景
+    // 移除外圆环，直接使用设备图标背景
     const iconBg = document.createElementNS(
       "http://www.w3.org/2000/svg",
       "circle"
     );
     iconBg.setAttribute("cx", device.x);
     iconBg.setAttribute("cy", device.y);
-    iconBg.setAttribute("r", "10");
+    iconBg.setAttribute("r", "8"); // 从10px减少到8px
     iconBg.setAttribute("fill", this.getStatusColor(device.status));
     iconBg.setAttribute("stroke", "#fff");
     iconBg.setAttribute("stroke-width", "2");
@@ -800,9 +1123,9 @@ class RealisticOfficeFloorPlan {
     // 设备图标
     const icon = document.createElementNS("http://www.w3.org/2000/svg", "text");
     icon.setAttribute("x", device.x);
-    icon.setAttribute("y", device.y + 3);
+    icon.setAttribute("y", device.y + 2);
     icon.setAttribute("text-anchor", "middle");
-    icon.setAttribute("font-size", "10");
+    icon.setAttribute("font-size", "8"); // 从10px减少到8px
     icon.setAttribute("fill", "#fff");
     icon.textContent = this.getDeviceIcon(device.type);
     group.appendChild(icon);
@@ -812,14 +1135,14 @@ class RealisticOfficeFloorPlan {
       "http://www.w3.org/2000/svg",
       "rect"
     );
-    labelBg.setAttribute("x", device.x - 25);
-    labelBg.setAttribute("y", device.y + 15);
-    labelBg.setAttribute("width", "50");
-    labelBg.setAttribute("height", "14");
+    labelBg.setAttribute("x", device.x - 20); // 从25px减少到20px
+    labelBg.setAttribute("y", device.y + 12); // 从15px减少到12px
+    labelBg.setAttribute("width", "40"); // 从50px减少到40px
+    labelBg.setAttribute("height", "12"); // 从14px减少到12px
     labelBg.setAttribute("fill", "rgba(255,255,255,0.95)");
     labelBg.setAttribute("stroke", "#ddd");
     labelBg.setAttribute("stroke-width", "1");
-    labelBg.setAttribute("rx", "7");
+    labelBg.setAttribute("rx", "6");
     group.appendChild(labelBg);
 
     // 设备名称标签
@@ -828,9 +1151,9 @@ class RealisticOfficeFloorPlan {
       "text"
     );
     label.setAttribute("x", device.x);
-    label.setAttribute("y", device.y + 24);
+    label.setAttribute("y", device.y + 20); // 从24px减少到20px
     label.setAttribute("text-anchor", "middle");
-    label.setAttribute("font-size", "7");
+    label.setAttribute("font-size", "6"); // 从7px减少到6px
     label.setAttribute("font-weight", "bold");
     label.setAttribute("fill", "#2c3e50");
     label.textContent = device.name;
@@ -843,13 +1166,13 @@ class RealisticOfficeFloorPlan {
     });
 
     group.addEventListener("mouseenter", () => {
-      iconBg.setAttribute("r", "12");
+      iconBg.setAttribute("r", "10"); // 从12px调整到10px
       iconBg.setAttribute("stroke-width", "3");
       labelBg.setAttribute("fill", "rgba(255,255,255,1)");
     });
 
     group.addEventListener("mouseleave", () => {
-      iconBg.setAttribute("r", "10");
+      iconBg.setAttribute("r", "8"); // 从10px调整到8px
       iconBg.setAttribute("stroke-width", "2");
       labelBg.setAttribute("fill", "rgba(255,255,255,0.95)");
     });
@@ -877,6 +1200,7 @@ class RealisticOfficeFloorPlan {
       camera: "📷",
       router: "📡",
       projector: "📽️",
+      printer: "🖨️",
     };
     return icons[type] || "📦";
   }

@@ -1,0 +1,193 @@
+<!-- 星闪跟踪器诊断模块 -->
+<div class="stats-grid">
+  <div class="stat-card">
+    <div class="icon"><i class="fas fa-satellite-dish"></i></div>
+    <div class="number">156</div>
+    <div class="label">在线跟踪器</div>
+  </div>
+  <div class="stat-card">
+    <div class="icon"><i class="fas fa-exclamation-triangle"></i></div>
+    <div class="number">8</div>
+    <div class="label">信号异常</div>
+  </div>
+  <div class="stat-card">
+    <div class="icon"><i class="fas fa-times-circle"></i></div>
+    <div class="number">3</div>
+    <div class="label">离线跟踪器</div>
+  </div>
+  <div class="stat-card">
+    <div class="icon"><i class="fas fa-battery-half"></i></div>
+    <div class="number">12</div>
+    <div class="label">低电量警告</div>
+  </div>
+</div>
+
+<!-- 星闪诊断说明 -->
+<div class="card" style="margin-bottom: 20px;">
+  <div class="card-header">
+    <h3>星闪跟踪器诊断说明</h3>
+  </div>
+  <div class="card-body">
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+      <div>
+        <h4 style="color: #2c3e50; margin-bottom: 10px;"><i class="fas fa-stethoscope"></i> 诊断项目</h4>
+        <ul style="margin: 0; padding-left: 20px; color: #555;">
+          <li>星闪信号强度检测</li>
+          <li>定位精度测试</li>
+          <li>电池电量监控</li>
+          <li>通信延迟测量</li>
+          <li>硬件状态检查</li>
+        </ul>
+      </div>
+      <div>
+        <h4 style="color: #2c3e50; margin-bottom: 10px;"><i class="fas fa-tools"></i> 故障排查</h4>
+        <ul style="margin: 0; padding-left: 20px; color: #555;">
+          <li>信号干扰源分析</li>
+          <li>网络连接问题诊断</li>
+          <li>设备重启和重置</li>
+          <li>固件版本检查更新</li>
+          <li>硬件故障定位</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="card">
+  <div class="card-header">
+    <h3>星闪跟踪器状态监控</h3>
+    <div>
+      <button class="btn btn-success" onclick="refreshTrackerStatus()">
+        <i class="fas fa-sync-alt"></i> 刷新状态
+      </button>
+      <button class="btn btn-warning" onclick="runDiagnostics()">
+        <i class="fas fa-stethoscope"></i> 运行诊断
+      </button>
+      <button class="btn btn-primary" onclick="exportDiagnosticReport()">
+        <i class="fas fa-download"></i> 导出报告
+      </button>
+    </div>
+  </div>
+  <div class="card-body">
+    <table class="table">
+      <thead>
+        <tr>
+          <th>跟踪器ID</th>
+          <th>绑定资产</th>
+          <th>信号强度</th>
+          <th>电池电量</th>
+          <th>定位精度</th>
+          <th>最后通信</th>
+          <th>状态</th>
+          <th>操作</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>SF001</strong></td>
+          <td>LAPTOP001</td>
+          <td>-35dBm</td>
+          <td>85%</td>
+          <td>±15cm</td>
+          <td>2分钟前</td>
+          <td><span class="status-badge status-available">正常</span></td>
+          <td>
+            <button class="btn btn-primary btn-sm" onclick="showTrackerDetails('SF001')">详情</button>
+            <button class="btn btn-success btn-sm" onclick="testTracker('SF001')">测试</button>
+          </td>
+        </tr>
+        <tr>
+          <td><strong>SF002</strong></td>
+          <td>LAPTOP002</td>
+          <td>-58dBm</td>
+          <td>45%</td>
+          <td>±25cm</td>
+          <td>8分钟前</td>
+          <td><span class="status-badge status-borrowed">信号弱</span></td>
+          <td>
+            <button class="btn btn-warning btn-sm" onclick="diagnoseTracker('SF002')">诊断</button>
+            <button class="btn btn-primary btn-sm" onclick="showTrackerDetails('SF002')">详情</button>
+          </td>
+        </tr>
+        <tr>
+          <td><strong>SF003</strong></td>
+          <td>SERVER003</td>
+          <td>-42dBm</td>
+          <td>92%</td>
+          <td>±12cm</td>
+          <td>1分钟前</td>
+          <td><span class="status-badge status-available">正常</span></td>
+          <td>
+            <button class="btn btn-primary btn-sm" onclick="showTrackerDetails('SF003')">详情</button>
+            <button class="btn btn-success btn-sm" onclick="testTracker('SF003')">测试</button>
+          </td>
+        </tr>
+        <tr>
+          <td><strong>SF004</strong></td>
+          <td>DRONE004</td>
+          <td>离线</td>
+          <td>15%</td>
+          <td>无法定位</td>
+          <td>2小时前</td>
+          <td><span class="status-badge status-maintenance">离线</span></td>
+          <td>
+            <button class="btn btn-danger btn-sm" onclick="troubleshootTracker('SF004')">故障排查</button>
+            <button class="btn btn-warning btn-sm" onclick="resetTracker('SF004')">重置</button>
+          </td>
+        </tr>
+        <tr>
+          <td><strong>SF005</strong></td>
+          <td>LAPTOP005</td>
+          <td>-48dBm</td>
+          <td>8%</td>
+          <td>±18cm</td>
+          <td>5分钟前</td>
+          <td><span class="status-badge status-borrowed">低电量</span></td>
+          <td>
+            <button class="btn btn-warning btn-sm" onclick="replaceBattery('SF005')">更换电池</button>
+            <button class="btn btn-primary btn-sm" onclick="showTrackerDetails('SF005')">详情</button>
+          </td>
+        </tr>
+        <tr>
+          <td><strong>SF006</strong></td>
+          <td>SERVER006</td>
+          <td>-39dBm</td>
+          <td>78%</td>
+          <td>±20cm</td>
+          <td>3分钟前</td>
+          <td><span class="status-badge status-available">正常</span></td>
+          <td>
+            <button class="btn btn-primary btn-sm" onclick="showTrackerDetails('SF006')">详情</button>
+            <button class="btn btn-success btn-sm" onclick="testTracker('SF006')">测试</button>
+          </td>
+        </tr>
+        <tr>
+          <td><strong>SF007</strong></td>
+          <td>WORKSTATION007</td>
+          <td>-65dBm</td>
+          <td>55%</td>
+          <td>±35cm</td>
+          <td>15分钟前</td>
+          <td><span class="status-badge status-borrowed">信号差</span></td>
+          <td>
+            <button class="btn btn-warning btn-sm" onclick="diagnoseTracker('SF007')">诊断</button>
+            <button class="btn btn-danger btn-sm" onclick="troubleshootTracker('SF007')">故障排查</button>
+          </td>
+        </tr>
+        <tr>
+          <td><strong>SF008</strong></td>
+          <td>DRONE008</td>
+          <td>-44dBm</td>
+          <td>68%</td>
+          <td>±16cm</td>
+          <td>4分钟前</td>
+          <td><span class="status-badge status-available">正常</span></td>
+          <td>
+            <button class="btn btn-primary btn-sm" onclick="showTrackerDetails('SF008')">详情</button>
+            <button class="btn btn-success btn-sm" onclick="testTracker('SF008')">测试</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

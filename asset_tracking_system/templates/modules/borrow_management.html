@@ -39,6 +39,7 @@
       <thead>
         <tr>
           <th>借用编号</th>
+          <th>资产编号</th>
           <th>资产名称</th>
           <th>借用人</th>
           <th>部门</th>
@@ -52,6 +53,7 @@
         {% for borrow in borrows %}
         <tr data-borrow-id="{{ borrow.id }}">
           <td>BR{{ "%03d"|format(borrow.id) }}</td>
+          <td><strong>{{ borrow.asset_code }}</strong></td>
           <td>{{ borrow.asset_name }}</td>
           <td>{{ borrow.borrower_name }}</td>
           <td>{{ borrow.borrower_department }}</td>

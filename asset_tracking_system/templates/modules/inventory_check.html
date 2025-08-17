@@ -1,24 +1,55 @@
 <!-- 盘点核查模块 -->
 <div class="stats-grid">
   <div class="stat-card">
-    <div class="icon"><i class="fas fa-search"></i></div>
+    <div class="icon"><i class="fas fa-clipboard-list"></i></div>
     <div class="number">156</div>
-    <div class="label">应盘资产</div>
+    <div class="label">应盘资产数量</div>
   </div>
   <div class="stat-card">
     <div class="icon"><i class="fas fa-check-circle"></i></div>
     <div class="number">142</div>
-    <div class="label">已盘点</div>
+    <div class="label">已盘点数量</div>
   </div>
   <div class="stat-card">
-    <div class="icon"><i class="fas fa-question-circle"></i></div>
-    <div class="number">14</div>
-    <div class="label">待核查</div>
+    <div class="icon"><i class="fas fa-exclamation-triangle"></i></div>
+    <div class="number">8</div>
+    <div class="label">位置异常</div>
   </div>
   <div class="stat-card">
-    <div class="icon"><i class="fas fa-percentage"></i></div>
-    <div class="number">91%</div>
-    <div class="label">盘点进度</div>
+    <div class="icon"><i class="fas fa-times-circle"></i></div>
+    <div class="number">3</div>
+    <div class="label">资产缺失</div>
+  </div>
+</div>
+
+<!-- 在线自动盘点核查说明 -->
+<div class="card" style="margin-bottom: 20px;">
+  <div class="card-header">
+    <h3>在线自动盘点核查说明</h3>
+  </div>
+  <div class="card-body">
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+      <div>
+        <h4 style="color: #2c3e50; margin-bottom: 10px;"><i class="fas fa-wifi"></i> 在线盘点内容</h4>
+        <ul style="margin: 0; padding-left: 20px; color: #555;">
+          <li>星闪标签在线状态检测</li>
+          <li>资产位置信息自动核实</li>
+          <li>设备网络连接状态检查</li>
+          <li>星闪信号强度监测</li>
+          <li>电池电量状态监控</li>
+        </ul>
+      </div>
+      <div>
+        <h4 style="color: #2c3e50; margin-bottom: 10px;"><i class="fas fa-stethoscope"></i> 异常核查诊断</h4>
+        <ul style="margin: 0; padding-left: 20px; color: #555;">
+          <li>离线设备原因分析</li>
+          <li>位置偏差自动检测</li>
+          <li>信号异常故障诊断</li>
+          <li>网络连接问题排查</li>
+          <li>硬件故障自动识别</li>
+        </ul>
+      </div>
+    </div>
   </div>
 </div>
 
@@ -26,10 +57,13 @@
   <div class="card-header">
     <h3>盘点核查管理</h3>
     <div>
-      <button class="btn btn-success">
-        <i class="fas fa-play"></i> 开始盘点
+      <button class="btn btn-success" onclick="startAutoInventory()">
+        <i class="fas fa-play"></i> 开始自动盘点
       </button>
-      <button class="btn btn-primary">
+      <button class="btn btn-warning" onclick="runFullDiagnostics()">
+        <i class="fas fa-stethoscope"></i> 全面诊断
+      </button>
+      <button class="btn btn-primary" onclick="exportInventoryReport()">
         <i class="fas fa-download"></i> 导出报告
       </button>
     </div>
@@ -42,76 +76,96 @@
           <th>资产名称</th>
           <th>预期位置</th>
           <th>实际位置</th>
-          <th>盘点日期</th>
-          <th>盘点人员</th>
-          <th>状态</th>
+          <th>星闪状态</th>
+          <th>信号强度</th>
+          <th>电池电量</th>
+          <th>盘点状态</th>
           <th>操作</th>
         </tr>
       </thead>
       <tbody>
         <tr>
-          <td>LAPTOP001</td>
-          <td>联想ThinkPad X1</td>
-          <td>研发部-A区</td>
-          <td>研发部-A区-工位03</td>
-          <td>2024-01-15</td>
-          <td>盘点员-小张</td>
+          <td><strong>LAPTOP001</strong></td>
+          <td>联想ThinkPad P1</td>
+          <td>15F-研发部-工位R12</td>
+          <td>15F-研发部-工位R12</td>
+          <td><span class="status-badge status-available">在线</span></td>
+          <td>-35dBm</td>
+          <td>85%</td>
           <td><span class="status-badge status-available">正常</span></td>
           <td>
-            <button class="btn btn-primary btn-sm">查看</button>
-            <button class="btn btn-success btn-sm">确认</button>
+            <button class="btn btn-primary btn-sm" onclick="viewAssetDetails('LAPTOP001')">查看</button>
+            <button class="btn btn-success btn-sm" onclick="confirmInventory('LAPTOP001')">确认</button>
           </td>
         </tr>
         <tr>
-          <td>PROJ002</td>
-          <td>爱普生投影仪</td>
-          <td>会议室-201</td>
-          <td>会议室-301</td>
-          <td>2024-01-15</td>
-          <td>盘点员-小李</td>
+          <td><strong>LAPTOP002</strong></td>
+          <td>戴尔Precision 7560</td>
+          <td>15F-设计部-工位D05</td>
+          <td>15F-市场部-会议室</td>
+          <td><span class="status-badge status-borrowed">信号弱</span></td>
+          <td>-58dBm</td>
+          <td>45%</td>
           <td><span class="status-badge status-borrowed">位置异常</span></td>
           <td>
-            <button class="btn btn-warning btn-sm">核查</button>
-            <button class="btn btn-danger btn-sm">报告</button>
+            <button class="btn btn-warning btn-sm" onclick="verifyAssetLocation('LAPTOP002')">核查</button>
+            <button class="btn btn-danger btn-sm" onclick="reportAssetIssue('LAPTOP002')">报告</button>
           </td>
         </tr>
         <tr>
-          <td>DESK003</td>
-          <td>办公桌椅套装</td>
-          <td>行政部-B区</td>
-          <td>行政部-B区</td>
-          <td>2024-01-15</td>
-          <td>盘点员-小王</td>
+          <td><strong>SERVER003</strong></td>
+          <td>华为FusionServer</td>
+          <td>15F-机房-机柜A15</td>
+          <td>15F-机房-机柜A15</td>
+          <td><span class="status-badge status-available">在线</span></td>
+          <td>-42dBm</td>
+          <td>92%</td>
           <td><span class="status-badge status-available">正常</span></td>
           <td>
-            <button class="btn btn-primary btn-sm">查看</button>
-            <button class="btn btn-success btn-sm">确认</button>
+            <button class="btn btn-primary btn-sm" onclick="viewAssetDetails('SERVER003')">查看</button>
+            <button class="btn btn-success btn-sm" onclick="confirmInventory('SERVER003')">确认</button>
           </td>
         </tr>
         <tr>
-          <td>PRINT004</td>
-          <td>激光打印机</td>
-          <td>行政部-打印区</td>
-          <td>未找到</td>
-          <td>2024-01-15</td>
-          <td>盘点员-小赵</td>
-          <td><span class="status-badge status-maintenance">缺失</span></td>
+          <td><strong>DRONE004</strong></td>
+          <td>大疆Matrice 300</td>
+          <td>15F-测试部-设备柜</td>
+          <td>无法定位</td>
+          <td><span class="status-badge status-maintenance">离线</span></td>
+          <td>无信号</td>
+          <td>15%</td>
+          <td><span class="status-badge status-maintenance">异常</span></td>
           <td>
-            <button class="btn btn-warning btn-sm">查找</button>
-            <button class="btn btn-danger btn-sm">报告</button>
+            <button class="btn btn-warning btn-sm" onclick="verifyAssetLocation('DRONE004')">核查</button>
+            <button class="btn btn-danger btn-sm" onclick="troubleshootAsset('DRONE004')">故障排查</button>
           </td>
         </tr>
         <tr>
-          <td>MONITOR005</td>
-          <td>显示器</td>
-          <td>研发部-B区</td>
-          <td>-</td>
-          <td>-</td>
-          <td>-</td>
-          <td><span class="status-badge status-borrowed">待盘点</span></td>
+          <td><strong>LAPTOP005</strong></td>
+          <td>苹果MacBook Pro</td>
+          <td>15F-市场部-工位M03</td>
+          <td>15F-市场部-工位M03</td>
+          <td><span class="status-badge status-borrowed">低电量</span></td>
+          <td>-48dBm</td>
+          <td>8%</td>
+          <td><span class="status-badge status-borrowed">需维护</span></td>
           <td>
-            <button class="btn btn-success btn-sm">开始</button>
-            <button class="btn btn-primary btn-sm">定位</button>
+            <button class="btn btn-warning btn-sm" onclick="verifyAssetLocation('LAPTOP005')">核查</button>
+            <button class="btn btn-primary btn-sm" onclick="scheduleMaintenance('LAPTOP005')">维护</button>
+          </td>
+        </tr>
+        <tr>
+          <td><strong>ROUTER012</strong></td>
+          <td>华为AR6300</td>
+          <td>15F-技术部-网络机柜</td>
+          <td>15F-技术部-网络机柜</td>
+          <td><span class="status-badge status-available">在线</span></td>
+          <td>-39dBm</td>
+          <td>78%</td>
+          <td><span class="status-badge status-available">正常</span></td>
+          <td>
+            <button class="btn btn-primary btn-sm" onclick="viewAssetDetails('ROUTER012')">查看</button>
+            <button class="btn btn-success btn-sm" onclick="confirmInventory('ROUTER012')">确认</button>
           </td>
         </tr>
       </tbody>

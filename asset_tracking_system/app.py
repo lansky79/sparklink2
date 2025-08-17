@@ -10,6 +10,10 @@ if not os.path.exists('data'):
     os.makedirs('data')
 init_db()
 
+@app.route('/login')
+def login():
+    return render_template('login.html')
+
 @app.route('/')
 def index():
     return redirect(url_for('asset_register'))
@@ -37,12 +41,14 @@ def asset_register():
 @app.route('/location_tracking')
 def location_tracking():
     conn = get_db_connection()
-    # 获取最新位置信息
+    # 获取最新位置信息，包含借用人信息
     locations = conn.execute('''
         SELECT a.*, lh.location, lh.x_coordinate, lh.y_coordinate, 
-               lh.signal_strength, lh.timestamp
+               lh.signal_strength, lh.timestamp,
+               br.borrower_name
         FROM assets a
         LEFT JOIN location_history lh ON a.id = lh.asset_id
+        LEFT JOIN borrow_records br ON a.id = br.asset_id AND br.status = 'borrowed'
         WHERE lh.id IN (
             SELECT MAX(id) FROM location_history GROUP BY asset_id
         ) OR lh.id IS NULL
@@ -190,6 +196,8 @@ def alert_notification():
     return render_template('index.html', active_page='alert_notification',
                          alerts=alerts, unread_alerts=unread_alerts,
                          high_alerts=high_alerts, resolved_alerts=resolved_alerts)
+
+# 星闪诊断功能已合并到盘点核查模块
 
 # API接口
 @app.route('/api/assets', methods=['GET', 'POST'])
