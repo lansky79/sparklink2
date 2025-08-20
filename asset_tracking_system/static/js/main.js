@@ -879,7 +879,7 @@ function showAlertSettings() {
         </div>
     `;
 
-  document.body.insertAdjacentHTML("beforeend", settingsHtml);
+  document.body.insertAdjacentHTML("beforeend", formHtml);
 }
 
 function saveAlertSettings() {
@@ -968,191 +968,6 @@ function diagnoseTracker(trackerId) {
   }, 2500);
 }
 
-function troubleshootTracker(trackerId) {
-  const troubleshootHtml = `
-        <div class="modal-overlay" onclick="closeModal()">
-            <div class="modal-content" onclick="event.stopPropagation()">
-                <div class="modal-header">
-                    <h3>故障排查 - ${trackerId}</h3>
-                    <button class="modal-close" onclick="closeModal()">&times;</button>
-                </div>
-                <div class="modal-body">
-                    <h4>自动诊断结果：</h4>
-                    <ul style="margin: 10px 0; padding-left: 20px;">
-                        <li>✓ 硬件连接正常</li>
-                        <li>✗ 网络连接异常</li>
-                        <li>✗ 电池电量过低</li>
-                        <li>✓ 固件版本正常</li>
-                    </ul>
-                    <h4>建议处理方案：</h4>
-                    <ol style="margin: 10px 0; padding-left: 20px;">
-                        <li>检查网络连接</li>
-                        <li>更换电池</li>
-                        <li>重启设备</li>
-                        <li>联系技术支持</li>
-                    </ol>
-                </div>
-                <div class="modal-footer">
-                    <button class="btn btn-success" onclick="executeRepair('${trackerId}')">执行修复</button>
-                    <button class="btn btn-secondary" onclick="closeModal()">关闭</button>
-                </div>
-            </div>
-        </div>
-    `;
-
-  document.body.insertAdjacentHTML("beforeend", troubleshootHtml);
-}
-
-function resetTracker(trackerId) {
-  if (confirm(`确定要重置跟踪器 ${trackerId} 吗？`)) {
-    showMessage(`正在重置跟踪器 ${trackerId}...`, "info");
-    setTimeout(() => {
-      showMessage(`跟踪器 ${trackerId} 重置完成`, "success");
-    }, 3000);
-  }
-}
-
-function replaceBattery(trackerId) {
-  showMessage(`跟踪器 ${trackerId} 需要更换电池，请联系维护人员`, "warning");
-}
-
-function executeRepair(trackerId) {
-  showMessage(`正在执行自动修复 ${trackerId}...`, "info");
-  setTimeout(() => {
-    showMessage(`跟踪器 ${trackerId} 修复完成`, "success");
-    closeModal();
-  }, 4000);
-}
-
-// 盘点核查模块新功能
-function startAutoInventory() {
-  showMessage("正在启动自动盘点系统...", "info");
-  setTimeout(() => {
-    showMessage("自动盘点已启动，正在扫描所有设备...", "info");
-    setTimeout(() => {
-      showMessage("自动盘点完成，发现3个异常项", "warning");
-    }, 3000);
-  }, 1000);
-}
-
-function runFullDiagnostics() {
-  showMessage("正在运行全面星闪诊断...", "info");
-  setTimeout(() => {
-    showMessage("诊断完成：156个在线，8个信号异常，3个离线", "warning");
-  }, 4000);
-}
-
-function exportInventoryReport() {
-  showMessage("正在生成盘点报告...", "info");
-  setTimeout(() => {
-    showMessage("盘点报告导出成功", "success");
-  }, 2000);
-}
-
-function viewAssetDetails(assetCode) {
-  const detailHtml = `
-        <div class="modal-overlay" onclick="closeModal()">
-            <div class="modal-content" onclick="event.stopPropagation()">
-                <div class="modal-header">
-                    <h3>资产详情 - ${assetCode}</h3>
-                    <button class="modal-close" onclick="closeModal()">&times;</button>
-                </div>
-                <div class="modal-body">
-                    <div style="margin-bottom: 15px;">
-                        <div style="display: flex; justify-content: space-between; margin: 8px 0;">
-                            <span>资产编码:</span>
-                            <span><strong>${assetCode}</strong></span>
-                        </div>
-                        <div style="display: flex; justify-content: space-between; margin: 8px 0;">
-                            <span>当前位置:</span>
-                            <span>15F-研发部-工位R12</span>
-                        </div>
-                        <div style="display: flex; justify-content: space-between; margin: 8px 0;">
-                            <span>星闪状态:</span>
-                            <span style="color: #27ae60;">在线</span>
-                        </div>
-                        <div style="display: flex; justify-content: space-between; margin: 8px 0;">
-                            <span>信号强度:</span>
-                            <span>-35dBm (优秀)</span>
-                        </div>
-                        <div style="display: flex; justify-content: space-between; margin: 8px 0;">
-                            <span>电池电量:</span>
-                            <span>85%</span>
-                        </div>
-                        <div style="display: flex; justify-content: space-between; margin: 8px 0;">
-                            <span>最后更新:</span>
-                            <span>2分钟前</span>
-                        </div>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button class="btn btn-primary" onclick="closeModal()">关闭</button>
-                </div>
-            </div>
-        </div>
-    `;
-
-  document.body.insertAdjacentHTML("beforeend", detailHtml);
-}
-
-function confirmInventory(assetCode) {
-  showMessage(`资产 ${assetCode} 盘点确认完成`, "success");
-}
-
-function verifyAssetLocation(assetCode) {
-  const verifyHtml = `
-        <div class="modal-overlay" onclick="closeModal()">
-            <div class="modal-content" onclick="event.stopPropagation()">
-                <div class="modal-header">
-                    <h3>位置核查 - ${assetCode}</h3>
-                    <button class="modal-close" onclick="closeModal()">&times;</button>
-                </div>
-                <div class="modal-body">
-                    <h4>核查结果：</h4>
-                    <div style="margin: 15px 0; padding: 10px; background: #fff3cd; border-radius: 4px;">
-                        <strong>位置异常检测</strong><br>
-                        预期位置：15F-设计部-工位D05<br>
-                        实际位置：15F-市场部-会议室<br>
-                        偏差距离：约25米
-                    </div>
-                    <h4>可能原因：</h4>
-                    <ul style="margin: 10px 0; padding-left: 20px;">
-                        <li>设备被借用到其他区域</li>
-                        <li>星闪标签信号干扰</li>
-                        <li>设备移动未及时更新位置</li>
-                    </ul>
-                    <h4>建议处理：</h4>
-                    <ol style="margin: 10px 0; padding-left: 20px;">
-                        <li>确认设备是否被授权移动</li>
-                        <li>检查星闪信号质量</li>
-                        <li>更新资产位置信息</li>
-                    </ol>
-                </div>
-                <div class="modal-footer">
-                    <button class="btn btn-success" onclick="updateAssetLocation('${assetCode}')">更新位置</button>
-                    <button class="btn btn-warning" onclick="reportAssetIssue('${assetCode}')">报告异常</button>
-                    <button class="btn btn-secondary" onclick="closeModal()">关闭</button>
-                </div>
-            </div>
-        </div>
-    `;
-
-  document.body.insertAdjacentHTML("beforeend", verifyHtml);
-}
-
-function updateAssetLocation(assetCode) {
-  showMessage(`正在更新 ${assetCode} 的位置信息...`, "info");
-  setTimeout(() => {
-    showMessage(`${assetCode} 位置信息已更新`, "success");
-    closeModal();
-  }, 2000);
-}
-
-function reportAssetIssue(assetCode) {
-  showMessage(`已生成 ${assetCode} 异常报告`, "warning");
-  closeModal();
-}
-
 function troubleshootAsset(assetCode) {
   const troubleshootHtml = `
         <div class="modal-overlay" onclick="closeModal()">
@@ -1181,6 +996,42 @@ function troubleshootAsset(assetCode) {
                 <div class="modal-footer">
                     <button class="btn btn-success" onclick="executeAutoRepair('${assetCode}')">自动修复</button>
                     <button class="btn btn-warning" onclick="scheduleMaintenance('${assetCode}')">安排维护</button>
+                    <button class="btn btn-secondary" onclick="closeModal()">关闭</button>
+                </div>
+            </div>
+        </div>
+    `;
+
+  document.body.insertAdjacentHTML("beforeend", troubleshootHtml);
+}
+
+function showProcessAnomaly(assetCode) {
+  const troubleshootHtml = `
+        <div class="modal-overlay" onclick="closeModal()">
+            <div class="modal-content" onclick="event.stopPropagation()">
+                <div class="modal-header">
+                    <h3>处理异常 - ${assetCode}</h3>
+                    <button class="modal-close" onclick="closeModal()">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <h4>自动诊断结果：</h4>
+                    <ul style="margin: 10px 0; padding-left: 20px;">
+                        <li>✗ 星闪信号：无法检测</li>
+                        <li>✗ 网络连接：连接超时</li>
+                        <li>✗ 电池电量：严重不足(15%)</li>
+                        <li>✓ 硬件注册：正常</li>
+                    </ul>
+                    <h4>建议处理方案：</h4>
+                    <ol style="margin: 10px 0; padding-left: 20px;">
+                        <li>检查设备电源状态</li>
+                        <li>更换或充电电池</li>
+                        <li>检查星闪标签连接</li>
+                        <li>重启设备网络模块</li>
+                        <li>如问题持续，联系技术支持</li>
+                    </ol>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-warning" onclick="showMaintenanceForm('${assetCode}')">安排维护</button>
                     <button class="btn btn-secondary" onclick="closeModal()">关闭</button>
                 </div>
             </div>
@@ -1427,7 +1278,20 @@ async function updateAsset(assetId) {
 }
 
 // 维护管理表单
-function showMaintenanceForm() {
+async function showMaintenanceForm(assetCode = null) {
+  let assetOptions = '<option value="">请选择资产</option>';
+  
+  try {
+    const response = await fetch('/api/assets');
+    const assets = await response.json();
+    assets.forEach(asset => {
+      const selected = asset.asset_code === assetCode ? 'selected' : '';
+      assetOptions += `<option value="${asset.id}" ${selected}>${asset.asset_code} - ${asset.asset_name}</option>`;
+    });
+  } catch (error) {
+    console.error('获取资产列表失败:', error);
+  }
+
   const formHtml = `
         <div class="modal-overlay" onclick="closeModal()">
             <div class="modal-content" onclick="event.stopPropagation()">
@@ -1440,10 +1304,7 @@ function showMaintenanceForm() {
                         <div class="form-group">
                             <label>维护资产 *</label>
                             <select id="maintenance_asset_id" class="form-control" required>
-                                <option value="">请选择资产</option>
-                                <option value="1">LAPTOP001 - 联想ThinkPad P1</option>
-                                <option value="4">DRONE004 - 大疆无人机</option>
-                                <option value="6">SERVER006 - 移动存储服务器</option>
+                                ${assetOptions}
                             </select>
                         </div>
                         <div class="form-group">
@@ -2055,4 +1916,134 @@ function editRole(roleId) {
 function updateRole(roleId) {
   showMessage("角色权限更新成功", "success");
   closeModal();
+}
+
+async function viewInventoryDetails(inventoryId) {
+    try {
+        const response = await fetch(`/api/inventory/${inventoryId}`);
+        const inventory = await response.json();
+        if (!inventory.success && inventory.message) {
+            throw new Error(inventory.message);
+        }
+
+        const detailHtml = `
+        <div class="modal-overlay" onclick="closeModal()">
+            <div class="modal-content" onclick="event.stopPropagation()">
+                <div class="modal-header">
+                    <h3>盘点详情 - ${inventory.asset_code}</h3>
+                    <button class="modal-close" onclick="closeModal()">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <div style="margin-bottom: 15px;">
+                        <div style="display: flex; justify-content: space-between; margin: 8px 0;">
+                            <span>资产编码:</span>
+                            <span><strong>${inventory.asset_code}</strong></span>
+                        </div>
+                        <div style="display: flex; justify-content: space-between; margin: 8px 0;">
+                            <span>资产名称:</span>
+                            <span>${inventory.asset_name}</span>
+                        </div>
+                        <div style="display: flex; justify-content: space-between; margin: 8px 0;">
+                            <span>预期位置:</span>
+                            <span>${inventory.expected_location}</span>
+                        </div>
+                        <div style="display: flex; justify-content: space-between; margin: 8px 0;">
+                            <span>实际位置:</span>
+                            <span>${inventory.actual_location}</span>
+                        </div>
+                        <div style="display: flex; justify-content: space-between; margin: 8px 0;">
+                            <span>盘点状态:</span>
+                            <span>${inventory.status}</span>
+                        </div>
+                        <div style="display: flex; justify-content: space-between; margin: 8px 0;">
+                            <span>盘点员:</span>
+                            <span>${inventory.checker_name}</span>
+                        </div>
+                        <div style="display: flex; justify-content: space-between; margin: 8px 0;">
+                            <span>盘点日期:</span>
+                            <span>${inventory.inventory_date}</span>
+                        </div>
+                        <div style="margin: 15px 0;">
+                            <span>备注:</span>
+                            <p style="margin-top: 5px; padding: 10px; background: #f8f9fa; border-radius: 4px;">
+                                ${inventory.notes || '无'}
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-primary" onclick="closeModal()">关闭</button>
+                </div>
+            </div>
+        </div>
+    `;
+        document.body.insertAdjacentHTML("beforeend", detailHtml);
+    } catch (error) {
+        showMessage(error.message, "error");
+    }
+}
+
+function startAutoInventory() {
+    const progressHtml = `
+        <div class="modal-overlay" onclick="closeModal()">
+            <div class="modal-content" onclick="event.stopPropagation()">
+                <div class="modal-header">
+                    <h3>自动盘点进行中...</h3>
+                </div>
+                <div class="modal-body">
+                    <div class="progress">
+                        <div class="progress-bar" role="progressbar" style="width: 0%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">0%</div>
+                    </div>
+                    <p id="inventory-status-text" style="text-align: center; margin-top: 15px;">正在初始化盘点...</p>
+                </div>
+            </div>
+        </div>
+    `;
+    document.body.insertAdjacentHTML("beforeend", progressHtml);
+
+    let progress = 0;
+    const progressBar = document.querySelector(".progress-bar");
+    const statusText = document.getElementById("inventory-status-text");
+
+    const interval = setInterval(() => {
+        progress += 10;
+        progressBar.style.width = progress + '%';
+        progressBar.textContent = progress + '%';
+        statusText.textContent = `正在扫描设备... (${progress}%)`;
+
+        if (progress >= 100) {
+            clearInterval(interval);
+            statusText.textContent = '盘点完成！正在生成报告...';
+            setTimeout(() => {
+                closeModal();
+                showMessage("盘点完成，发现3个异常项", "warning");
+            }, 2000);
+        }
+    }, 500);
+}
+
+function runFullDiagnostics() {
+    const diagnosticsHtml = `
+        <div class="modal-overlay" onclick="closeModal()">
+            <div class="modal-content" onclick="event.stopPropagation()">
+                <div class="modal-header">
+                    <h3>全面诊断进行中...</h3>
+                </div>
+                <div class="modal-body">
+                    <p>正在诊断星闪标签...</p>
+                    <p>正在检查网络连接...</p>
+                    <p>正在分析设备状态...</p>
+                    <div class="spinner-border" role="status">
+                        <span class="sr-only">Loading...</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    `;
+    document.body.insertAdjacentHTML("beforeend", diagnosticsHtml);
+
+    setTimeout(() => {
+        closeModal();
+        showMessage("诊断完成：156个在线，8个信号异常，3个离线", "warning");
+    }, 4000);
 }

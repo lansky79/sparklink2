@@ -84,90 +84,34 @@
         </tr>
       </thead>
       <tbody>
+        {% for inventory in inventories %}
         <tr>
-          <td><strong>LAPTOP001</strong></td>
-          <td>联想ThinkPad P1</td>
-          <td>15F-研发部-工位R12</td>
-          <td>15F-研发部-工位R12</td>
+          <td><strong>{{ inventory.asset_code }}</strong></td>
+          <td>{{ inventory.asset_name }}</td>
+          <td>{{ inventory.expected_location }}</td>
+          <td>{{ inventory.actual_location }}</td>
           <td><span class="status-badge status-available">在线</span></td>
           <td>-35dBm</td>
           <td>85%</td>
-          <td><span class="status-badge status-available">正常</span></td>
           <td>
-            <button class="btn btn-primary btn-sm" onclick="viewAssetDetails('LAPTOP001')">查看</button>
-            <button class="btn btn-success btn-sm" onclick="confirmInventory('LAPTOP001')">确认</button>
+            {% if inventory.status == 'normal' %}
+            <span class="status-badge status-available">正常</span>
+            {% elif inventory.status == 'abnormal' %}
+            <span class="status-badge status-borrowed">位置异常</span>
+            {% elif inventory.status == 'missing' %}
+            <span class="status-badge status-maintenance">异常</span>
+            {% else %}
+            <span class="status-badge status-maintenance">需维护</span>
+            {% endif %}
+          </td>
+          <td>
+            <button class="btn btn-primary btn-sm" onclick="viewInventoryDetails({{ inventory.id }})">查看</button>
+            {% if inventory.status != 'normal' %}
+            <button class="btn btn-warning btn-sm" onclick="showProcessAnomaly('{{ inventory.asset_code }}')">处理</button>
+            {% endif %}
           </td>
         </tr>
-        <tr>
-          <td><strong>LAPTOP002</strong></td>
-          <td>戴尔Precision 7560</td>
-          <td>15F-设计部-工位D05</td>
-          <td>15F-市场部-会议室</td>
-          <td><span class="status-badge status-borrowed">信号弱</span></td>
-          <td>-58dBm</td>
-          <td>45%</td>
-          <td><span class="status-badge status-borrowed">位置异常</span></td>
-          <td>
-            <button class="btn btn-warning btn-sm" onclick="verifyAssetLocation('LAPTOP002')">核查</button>
-            <button class="btn btn-danger btn-sm" onclick="reportAssetIssue('LAPTOP002')">报告</button>
-          </td>
-        </tr>
-        <tr>
-          <td><strong>SERVER003</strong></td>
-          <td>华为FusionServer</td>
-          <td>15F-机房-机柜A15</td>
-          <td>15F-机房-机柜A15</td>
-          <td><span class="status-badge status-available">在线</span></td>
-          <td>-42dBm</td>
-          <td>92%</td>
-          <td><span class="status-badge status-available">正常</span></td>
-          <td>
-            <button class="btn btn-primary btn-sm" onclick="viewAssetDetails('SERVER003')">查看</button>
-            <button class="btn btn-success btn-sm" onclick="confirmInventory('SERVER003')">确认</button>
-          </td>
-        </tr>
-        <tr>
-          <td><strong>DRONE004</strong></td>
-          <td>大疆Matrice 300</td>
-          <td>15F-测试部-设备柜</td>
-          <td>无法定位</td>
-          <td><span class="status-badge status-maintenance">离线</span></td>
-          <td>无信号</td>
-          <td>15%</td>
-          <td><span class="status-badge status-maintenance">异常</span></td>
-          <td>
-            <button class="btn btn-warning btn-sm" onclick="verifyAssetLocation('DRONE004')">核查</button>
-            <button class="btn btn-danger btn-sm" onclick="troubleshootAsset('DRONE004')">故障排查</button>
-          </td>
-        </tr>
-        <tr>
-          <td><strong>LAPTOP005</strong></td>
-          <td>苹果MacBook Pro</td>
-          <td>15F-市场部-工位M03</td>
-          <td>15F-市场部-工位M03</td>
-          <td><span class="status-badge status-borrowed">低电量</span></td>
-          <td>-48dBm</td>
-          <td>8%</td>
-          <td><span class="status-badge status-borrowed">需维护</span></td>
-          <td>
-            <button class="btn btn-warning btn-sm" onclick="verifyAssetLocation('LAPTOP005')">核查</button>
-            <button class="btn btn-primary btn-sm" onclick="scheduleMaintenance('LAPTOP005')">维护</button>
-          </td>
-        </tr>
-        <tr>
-          <td><strong>ROUTER012</strong></td>
-          <td>华为AR6300</td>
-          <td>15F-技术部-网络机柜</td>
-          <td>15F-技术部-网络机柜</td>
-          <td><span class="status-badge status-available">在线</span></td>
-          <td>-39dBm</td>
-          <td>78%</td>
-          <td><span class="status-badge status-available">正常</span></td>
-          <td>
-            <button class="btn btn-primary btn-sm" onclick="viewAssetDetails('ROUTER012')">查看</button>
-            <button class="btn btn-success btn-sm" onclick="confirmInventory('ROUTER012')">确认</button>
-          </td>
-        </tr>
+        {% endfor %}
       </tbody>
     </table>
   </div>

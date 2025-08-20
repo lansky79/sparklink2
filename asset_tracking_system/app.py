@@ -48,7 +48,7 @@ def location_tracking():
     locations = conn.execute('''
         SELECT a.*, lh.location, lh.x_coordinate, lh.y_coordinate, 
                lh.signal_strength, lh.timestamp,
-               br.borrower_name
+               COALESCE(br.borrower_name, a.asset_name) as borrower_name
         FROM assets a
         LEFT JOIN location_history lh ON a.id = lh.asset_id
         LEFT JOIN borrow_records br ON a.id = br.asset_id AND br.status = 'borrowed'
@@ -299,6 +299,20 @@ def api_asset_detail(asset_id):
         except Exception as e:
             conn.close()
             return jsonify({'success': False, 'message': str(e)})
+
+@app.route('/api/inventory/<int:inventory_id>', methods=['GET'])
+def api_inventory_detail(inventory_id):
+    conn = get_db_connection()
+    inventory = conn.execute('''
+        SELECT ir.*, a.asset_name, a.asset_code
+        FROM inventory_records ir
+        JOIN assets a ON ir.asset_id = a.id
+        WHERE ir.id = ?
+    ''', (inventory_id,)).fetchone()
+    conn.close()
+    if inventory:
+        return jsonify(dict(inventory))
+    return jsonify({'success': False, 'message': '盘点记录不存在'}), 404
 
 @app.route('/api/borrows', methods=['POST'])
 def api_create_borrow():

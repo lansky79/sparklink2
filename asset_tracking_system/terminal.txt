@@ -1,12 +1,9 @@
-Uncaught SyntaxError: Unexpected end of input (at main.js:2038:28)
-inventory_check:197  Uncaught ReferenceError: viewAssetDetails is not defined
-    at HTMLButtonElement.onclick (inventory_check:197:92)
-onclick @ inventory_check:197
-inventory_check:198  Uncaught ReferenceError: confirmInventory is not defined
-    at HTMLButtonElement.onclick (inventory_check:198:92)
-onclick @ inventory_check:198
-inventory_check:197  Uncaught ReferenceError: viewAssetDetails is not defined
-    at HTMLButtonElement.onclick (inventory_check:197:92)
-onclick @ inventory_check:197
-inventory_check:226  Uncaught ReferenceError: confirmInventory is not defined
-    at HTMLButtonElement.onclick (inventory_check:226:92)
+'(miniconda3)'PS C:\Users\franc\Projects\sparklink2\asset_tracking_system> python app.py
+Traceback (most recent call last):
+  File "C:\Users\franc\Projects\sparklink2\asset_tracking_system\app.py", line 11, in <module>
+    init_db()
+  File "C:\Users\franc\Projects\sparklink2\asset_tracking_system\database.py", line 136, in init_db
+    insert_sample_data()
+  File "C:\Users\franc\Projects\sparklink2\asset_tracking_system\database.py", line 237, in insert_sample_data
+    conn.execute('''
+sqlite3.IntegrityError: UNIQUE constraint failed: assets.asset_code
