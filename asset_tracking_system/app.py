@@ -22,7 +22,10 @@ def index():
 def asset_register():
     conn = get_db_connection()
     assets = conn.execute('''
-        SELECT * FROM assets ORDER BY created_at DESC
+        SELECT a.*, br.borrower_name
+        FROM assets a
+        LEFT JOIN borrow_records br ON a.id = br.asset_id AND br.status = 'borrowed'
+        ORDER BY a.created_at DESC
     ''').fetchall()
     
     # 统计数据
@@ -226,13 +229,30 @@ def api_assets():
     conn.close()
     return jsonify([dict(asset) for asset in assets])
 
-@app.route('/api/assets/<int:asset_id>', methods=['PUT', 'DELETE'])
+@app.route('/api/assets/<int:asset_id>', methods=['GET', 'PUT', 'DELETE'])
 def api_asset_detail(asset_id):
     conn = get_db_connection()
     
+    if request.method == 'GET':
+        asset = conn.execute('SELECT * FROM assets WHERE id = ?', (asset_id,)).fetchone()
+        if asset is None:
+            return jsonify({'success': False, 'message': '资产不存在'}), 404
+        
+        borrower_name = ''
+        if asset['status'] == 'borrowed':
+            borrower = conn.execute('SELECT borrower_name FROM borrow_records WHERE asset_id = ? AND status = ?', (asset_id, 'borrowed')).fetchone()
+            if borrower:
+                borrower_name = borrower['borrower_name']
+
+        asset_dict = dict(asset)
+        asset_dict['borrower_name'] = borrower_name
+        conn.close()
+        return jsonify(asset_dict)
+
     if request.method == 'PUT':
         data = request.get_json()
         try:
+            # 更新资产表
             conn.execute('''
                 UPDATE assets SET asset_name=?, category=?, brand=?, model=?,
                                 current_location=?, status=?, updated_at=CURRENT_TIMESTAMP
@@ -240,6 +260,29 @@ def api_asset_detail(asset_id):
             ''', (data['asset_name'], data['category'], data.get('brand', ''),
                   data.get('model', ''), data.get('current_location', ''),
                   data.get('status', 'available'), asset_id))
+
+            # 处理借用人信息
+            borrower_name = data.get('borrower_name')
+            if data.get('status') == 'borrowed':
+                if borrower_name:
+                    # 查找当前是否已有借用记录
+                    borrow_record = conn.execute('SELECT id FROM borrow_records WHERE asset_id = ? AND status = ?', (asset_id, 'borrowed')).fetchone()
+                    if borrow_record:
+                        # 更新借用人
+                        conn.execute('UPDATE borrow_records SET borrower_name = ? WHERE id = ?', (borrower_name, borrow_record['id']))
+                    else:
+                        # 创建新的借用记录
+                        conn.execute('''
+                            INSERT INTO borrow_records (asset_id, borrower_name, borrow_date, status)
+                            VALUES (?, ?, date('now'), 'borrowed')
+                        ''', (asset_id, borrower_name))
+            else:
+                # 如果资产状态不是“借用中”，则将所有该资产的借用记录设置为“已归还”
+                conn.execute('''
+                    UPDATE borrow_records SET status = 'returned', actual_return_date = date('now')
+                    WHERE asset_id = ? AND status = 'borrowed'
+                ''', (asset_id,))
+
             conn.commit()
             conn.close()
             return jsonify({'success': True, 'message': '资产更新成功'})

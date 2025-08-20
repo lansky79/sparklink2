@@ -48,7 +48,6 @@
           <th>资产编码</th>
           <th>资产名称</th>
           <th>当前位置</th>
-          <th>使用人员</th>
           <th>借用人</th>
           <th>信号强度</th>
           <th>最后更新</th>
@@ -62,12 +61,9 @@
           <td>{{ location.asset_code }}</td>
           <td>{{ location.asset_name }}</td>
           <td>{{ location.current_location }}</td>
-          <td>{{ location.user_name or '未分配' }}</td>
           <td>
             {% if location.borrower_name %}
-            <span style="color: #f39c12; font-weight: bold"
-              >{{ location.borrower_name }}</span
-            >
+            <span>{{ location.borrower_name }}</span>
             {% else %}
             <span style="color: #95a5a6">-</span>
             {% endif %}

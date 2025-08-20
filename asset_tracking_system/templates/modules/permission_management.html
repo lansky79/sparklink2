@@ -43,63 +43,37 @@
           </tr>
         </thead>
         <tbody>
+          {% for user in users %}
           <tr>
-            <td>admin</td>
-            <td>系统管理员</td>
-            <td>IT部</td>
-            <td>超级管理员</td>
-            <td><span class="status-badge status-available">正常</span></td>
+            <td>{{ user.username }}</td>
+            <td>{% if user.role == 'admin' %}系统管理员{% else %}{{ user.name }}{% endif %}</td>
+            <td>{{ user.department }}</td>
+            <td>{{ user.role }}</td>
             <td>
-              <button class="btn btn-warning btn-sm" onclick="editUser(1)">
+              {% if user.status == 'active' %}
+              <span class="status-badge status-available">正常</span>
+              {% else %}
+              <span class="status-badge status-maintenance">禁用</span>
+              {% endif %}
+            </td>
+            <td>
+              <button class="btn btn-warning btn-sm" onclick="editUser({{ user.id }})">
                 编辑
               </button>
+              {% if user.role != 'admin' %}
+                {% if user.status == 'active' %}
+                <button class="btn btn-danger btn-sm" onclick="disableUser({{ user.id }})">
+                  禁用
+                </button>
+                {% else %}
+                <button class="btn btn-success btn-sm" onclick="enableUser({{ user.id }})">
+                  启用
+                </button>
+                {% endif %}
+              {% endif %}
             </td>
           </tr>
-          <tr>
-            <td>zhangsan</td>
-            <td>张三</td>
-            <td>市场部</td>
-            <td>普通用户</td>
-            <td><span class="status-badge status-available">正常</span></td>
-            <td>
-              <button class="btn btn-warning btn-sm" onclick="editUser(2)">
-                编辑
-              </button>
-              <button class="btn btn-danger btn-sm" onclick="disableUser(2)">
-                禁用
-              </button>
-            </td>
-          </tr>
-          <tr>
-            <td>lisi</td>
-            <td>李四</td>
-            <td>销售部</td>
-            <td>部门管理员</td>
-            <td><span class="status-badge status-available">正常</span></td>
-            <td>
-              <button class="btn btn-warning btn-sm" onclick="editUser(3)">
-                编辑
-              </button>
-              <button class="btn btn-danger btn-sm" onclick="disableUser(3)">
-                禁用
-              </button>
-            </td>
-          </tr>
-          <tr>
-            <td>wangwu</td>
-            <td>王五</td>
-            <td>研发部</td>
-            <td>普通用户</td>
-            <td><span class="status-badge status-maintenance">禁用</span></td>
-            <td>
-              <button class="btn btn-warning btn-sm" onclick="editUser(4)">
-                编辑
-              </button>
-              <button class="btn btn-success btn-sm" onclick="enableUser(4)">
-                启用
-              </button>
-            </td>
-          </tr>
+          {% endfor %}
         </tbody>
       </table>
     </div>

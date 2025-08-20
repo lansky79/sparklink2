@@ -102,6 +102,7 @@ def init_db():
         CREATE TABLE IF NOT EXISTS users (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             username VARCHAR(50) UNIQUE NOT NULL,
+            name VARCHAR(50),
             password VARCHAR(100) NOT NULL,
             role VARCHAR(20) NOT NULL,
             department VARCHAR(50),
@@ -236,16 +237,27 @@ def insert_sample_data():
         ''', borrow)
     
     # 插入示例维护记录
-    conn.execute('''
-        INSERT INTO maintenance_records (asset_id, maintenance_type, maintenance_date, maintenance_person, description, cost, status)
-        VALUES (4, '定期保养', '2024-01-10', '技术部-小王', '无人机电池校准和螺旋桨检查', 850.00, 'ongoing')
-    ''')
+    maintenance_data = [
+        (4, '定期保养', '2024-01-10', '王志伟', '无人机电池校准和螺旋桨检查', 850.00, 'ongoing'),
+        (1, '屏幕更换', '2024-01-12', '李娜', '更换损坏的笔记本电脑屏幕', 1200.00, 'completed'),
+        (3, '系统升级', '2024-01-15', '张鹏', '服务器操作系统版本升级', 0.00, 'completed'),
+        (5, '电池更换', '2024-01-18', '刘洋', '更换老化电池', 500.00, 'ongoing'),
+        (2, '主板维修', '2024-01-20', '陈静', '维修无法开机的笔记本电脑', 2500.00, 'ongoing'),
+        (6, '网络配置', '2024-01-22', '黄磊', '配置新的网络交换机', 300.00, 'completed'),
+        (7, '软件安装', '2024-01-25', '周涛', '安装专业设计软件', 0.00, 'completed')
+    ]
+    
+    for maintenance in maintenance_data:
+        conn.execute('''
+            INSERT INTO maintenance_records (asset_id, maintenance_type, maintenance_date, maintenance_person, description, cost, status)
+            VALUES (?, ?, ?, ?, ?, ?, ?)
+        ''', maintenance)
     
     # 插入示例盘点记录
     inventory_data = [
-        ('2024-01-15', 1, '1F-研发部-工位A12', '1F-研发部-工位A12', 'normal', '盘点员-小张'),
-        ('2024-01-15', 3, '1F-机房-机柜A15', '1F-机房-机柜B12', 'abnormal', '盘点员-小李'),
-        ('2024-01-15', 5, '2F-创意部-工位C08', '2F-创意部-工位C08', 'normal', '盘点员-小王')
+        ('2024-01-15', 1, '1F-研发部-工位A12', '1F-研发部-工位A12', 'normal', '张伟'),
+        ('2024-01-15', 3, '1F-机房-机柜A15', '1F-机房-机柜B12', 'abnormal', '李静'),
+        ('2024-01-15', 5, '2F-创意部-工位C08', '2F-创意部-工位C08', 'normal', '王强')
     ]
     
     for inventory in inventory_data:
@@ -269,20 +281,17 @@ def insert_sample_data():
         ''', alert)
     
     # 插入示例用户
-    conn.execute('''
-        INSERT INTO users (username, password, role, department, email, phone)
-        VALUES ('admin', 'admin123', 'admin', 'IT部', 'admin@company.com', '13800138000')
-    ''')
-    
-    conn.execute('''
-        INSERT INTO users (username, password, role, department, email, phone)
-        VALUES ('zhangsan', 'pass123', 'user', '市场部', 'zhangsan@company.com', '13800138001')
-    ''')
-    
-    conn.execute('''
-        INSERT INTO users (username, password, role, department, email, phone)
-        VALUES ('lisi', 'pass123', 'manager', '技术部', 'lisi@company.com', '13800138002')
-    ''')
+    user_data = [
+        ('admin', '系统管理员', 'admin123', 'admin', 'IT部', 'admin@company.com', '13800138000'),
+        ('zhangwei', '张伟', 'pass123', 'user', '市场部', 'zhangwei@company.com', '13800138001'),
+        ('wangjing', '王静', 'pass123', 'manager', '技术部', 'wangjing@company.com', '13800138002')
+    ]
+
+    for user in user_data:
+        conn.execute('''
+            INSERT INTO users (username, name, password, role, department, email, phone)
+            VALUES (?, ?, ?, ?, ?, ?, ?)
+        ''', user)
     
     conn.commit()
     conn.close()

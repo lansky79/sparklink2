@@ -209,10 +209,86 @@ async function deleteAsset(assetId) {
   }
 }
 
-// 编辑资产
-function editAsset(assetId) {
-  showMessage("编辑功能开发中...", "info");
-}
+'''// 编辑资产
+async function editAsset(assetId) {
+  try {
+    const response = await fetch(`/api/assets/${assetId}`);
+    if (!response.ok) {
+      throw new Error('获取资产信息失败');
+    }
+    const asset = await response.json();
+
+    const formHtml = `
+        <div class="modal-overlay" onclick="closeModal()">
+            <div class="modal-content" onclick="event.stopPropagation()">
+                <div class="modal-header">
+                    <h3>编辑资产信息</h3>
+                    <button class="modal-close" onclick="closeModal()">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <form id="editAssetForm">
+                        <div class="form-group">
+                            <label>资产编码 *</label>
+                            <input type="text" id="edit_asset_code" class="form-control" value="${asset.asset_code}" required>
+                        </div>
+                        <div class="form-group">
+                            <label>资产名称 *</label>
+                            <input type="text" id="edit_asset_name" class="form-control" value="${asset.asset_name}" required>
+                        </div>
+                        <div class="form-group">
+                            <label>资产类别 *</label>
+                            <select id="edit_category" class="form-control" required>
+                                <option value="移动工作站" ${asset.category === '移动工作站' ? 'selected' : ''}>移动工作站</option>
+                                <option value="笔记本电脑" ${asset.category === '笔记本电脑' ? 'selected' : ''}>笔记本电脑</option>
+                                <option value="投影设备" ${asset.category === '投影设备' ? 'selected' : ''}>投影设备</option>
+                                <option value="打印设备" ${asset.category === '打印设备' ? 'selected' : ''}>打印设备</option>
+                                <option value="显示设备" ${asset.category === '显示设备' ? 'selected' : ''}>显示设备</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>品牌</label>
+                            <input type="text" id="edit_brand" class="form-control" value="${asset.brand || ''}">
+                        </div>
+                        <div class="form-group">
+                            <label>型号</label>
+                            <input type="text" id="edit_model" class="form-control" value="${asset.model || ''}">
+                        </div>
+                        <div class="form-group">
+                            <label>购买价格</label>
+                            <input type="number" id="edit_purchase_price" class="form-control" value="${asset.purchase_price || ''}" step="0.01">
+                        </div>
+                        <div class="form-group">
+                            <label>当前位置</label>
+                            <input type="text" id="edit_current_location" class="form-control" value="${asset.current_location || ''}">
+                        </div>
+                        <div class="form-group">
+                            <label>借用人</label>
+                            <input type="text" id="edit_borrower_name" class="form-control" value="${asset.borrower_name || ''}">
+                        </div>
+                        <div class="form-group">
+                            <label>资产状态</label>
+                            <select id="edit_status" class="form-control">
+                                <option value="available" ${asset.status === 'available' ? 'selected' : ''}>可用</option>
+                                <option value="borrowed" ${asset.status === 'borrowed' ? 'selected' : ''}>借用中</option>
+                                <option value="maintenance" ${asset.status === 'maintenance' ? 'selected' : ''}>维护中</option>
+                                <option value="retired" ${asset.status === 'retired' ? 'selected' : ''}>已报废</option>
+                            </select>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-primary" onclick="updateAsset(${assetId})">更新</button>
+                    <button class="btn btn-secondary" onclick="closeModal()">取消</button>
+                </div>
+            </div>
+        </div>
+    `;
+
+    document.body.insertAdjacentHTML("beforeend", formHtml);
+  } catch (error) {
+    showMessage(error.message, "error");
+  }
+}''
 
 // 归还资产
 async function returnAsset(borrowId) {
@@ -1270,13 +1346,43 @@ function editAsset(assetId) {
   document.body.insertAdjacentHTML("beforeend", formHtml);
 }
 
-function updateAsset(assetId) {
-  showMessage("资产信息更新成功", "success");
-  closeModal();
-  setTimeout(() => {
-    window.location.reload();
-  }, 1000);
-}
+'''async function updateAsset(assetId) {
+  const assetData = {
+    asset_code: document.getElementById("edit_asset_code").value,
+    asset_name: document.getElementById("edit_asset_name").value,
+    category: document.getElementById("edit_category").value,
+    brand: document.getElementById("edit_brand").value,
+    model: document.getElementById("edit_model").value,
+    purchase_price: parseFloat(document.getElementById("edit_purchase_price").value) || 0,
+    current_location: document.getElementById("edit_current_location").value,
+    borrower_name: document.getElementById("edit_borrower_name").value,
+    status: document.getElementById("edit_status").value,
+  };
+
+  try {
+    const response = await fetch(`/api/assets/${assetId}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(assetData),
+    });
+
+    const result = await response.json();
+
+    if (result.success) {
+      showMessage("资产信息更新成功", "success");
+      closeModal();
+      setTimeout(() => {
+        window.location.reload();
+      }, 1000);
+    } else {
+      showMessage(result.message, "error");
+    }
+  } catch (error) { 
+    showMessage("更新失败: " + error.message, "error");
+  }
+}''
 
 // 维护管理表单
 function showMaintenanceForm() {

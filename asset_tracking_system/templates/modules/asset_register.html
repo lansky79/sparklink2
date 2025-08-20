@@ -51,6 +51,7 @@
           <th>当前位置</th>
           <th>星闪标签</th>
           <th>状态</th>
+          <th>借用人</th>
           <th>操作</th>
         </tr>
       </thead>
@@ -72,6 +73,7 @@
             <span class="status-badge status-maintenance">维护中</span>
             {% endif %}
           </td>
+          <td>{{ asset.borrower_name or '' }}</td>
           <td>
             <button
               class="btn btn-warning btn-sm"
