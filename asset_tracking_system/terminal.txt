@@ -1,9 +1,12 @@
-'(miniconda3)'PS C:\Users\franc\Projects\sparklink2\asset_tracking_system> python app.py
-Traceback (most recent call last):
-  File "C:\Users\franc\Projects\sparklink2\asset_tracking_system\app.py", line 11, in <module>
-    init_db()
-  File "C:\Users\franc\Projects\sparklink2\asset_tracking_system\database.py", line 136, in init_db
-    insert_sample_data()
-  File "C:\Users\franc\Projects\sparklink2\asset_tracking_system\database.py", line 237, in insert_sample_data
-    conn.execute('''
-sqlite3.IntegrityError: UNIQUE constraint failed: assets.asset_code
+我需要填写软著申请信息表，有如下内容，你根据本项目内容输出到名为“本项目名”软著信息表.md，严格按下面的字数限制，设计到的硬件型号，软件全称尽量简洁一点。所有内容都是一整段话，不得以列表形式。
+开发的硬件环境（50字内）
+运行的硬件环境（50字内）
+开发该软件的操作系统（50字内）
+软件开发环境 / 开发工具（50字内）
+该软件的运行平台 / 操作系统（50字内）
+软件运行支撑环境 / 支持软件（50字内）
+用到的编程语言有哪些（120字内）
+开发目的（50字内）
+面向领域 / 行业（50字内）
+软件的主要功能（200字内）
+软件的技术特点(100字）
