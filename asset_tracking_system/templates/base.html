@@ -103,6 +103,8 @@
     </div>
 
     <script src="{{ url_for('static', filename='js/main.js') }}"></script>
-    {% block scripts %}{% endblock %}
+    {% block scripts %}
+    <script src="{{ url_for('static', filename='js/alert_settings.js') }}"></script>
+    {% endblock %}
   </body>
 </html>

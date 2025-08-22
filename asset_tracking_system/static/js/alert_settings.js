@@ -1,10 +1,10 @@
 function showAlertSettings() {
   const settingsHtml = `
-        <div class="modal-overlay" onclick="closeModal()">
+        <div class="modal-overlay" onclick="window.closeModal()">
             <div class="modal-content" onclick="event.stopPropagation()">
                 <div class="modal-header">
                     <h3>告警设置</h3>
-                    <button class="modal-close" onclick="closeModal()">&times;</button>
+                    <button class="modal-close" onclick="window.closeModal()">&times;</button>
                 </div>
                 <div class="modal-body">
                     <div class="form-group">
@@ -38,12 +38,12 @@ function showAlertSettings() {
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button class="btn btn-primary" onclick="saveAlertSettings()">保存设置</button>
-                    <button class="btn btn-secondary" onclick="closeModal()">取消</button>
+                    <button class="btn btn-primary" onclick="window.saveAlertSettings()">保存设置</button>
+                    <button class="btn btn-secondary" onclick="window.closeModal()">取消</button>
                 </div>
             </div>
         </div>
     `;
 
-  document.body.insertAdjacentHTML("beforeend", formHtml);
+  document.body.insertAdjacentHTML("beforeend", settingsHtml);
 }

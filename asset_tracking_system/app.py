@@ -1,4 +1,5 @@
 from flask import Flask, render_template, request, jsonify, redirect, url_for
+from datetime import datetime
 from database import init_db, get_db_connection
 import os
 
@@ -179,16 +180,35 @@ def permission_management():
                          users=users, total_users=total_users,
                          admin_users=admin_users, active_users=active_users)
 
+from datetime import datetime
+
 @app.route('/alert_notification')
 def alert_notification():
     conn = get_db_connection()
-    alerts = conn.execute('''
+    db_alerts = conn.execute('''
         SELECT al.*, a.asset_name, a.asset_code
         FROM alerts al
         LEFT JOIN assets a ON al.asset_id = a.id
-        ORDER BY al.created_at DESC
     ''').fetchall()
+
+    alerts = [dict(alert) for alert in db_alerts]
     
+    # Add 8 new alerts
+    new_alerts = [
+        {'id': 101, 'alert_type': '设备离线', 'asset_code': 'LAPTOP010', 'asset_name': '联想ThinkPad T14', 'message': '设备超过24小时未连接', 'severity': 'high', 'created_at': '2025-08-20 10:00:00', 'status': 'unread'},
+        {'id': 102, 'alert_type': '位置异常', 'asset_code': 'DRONE008', 'asset_name': '大疆无人机', 'message': '设备出现在非工作区域', 'severity': 'medium', 'created_at': '2025-08-18 15:30:00', 'status': 'unread'},
+        {'id': 103, 'alert_type': '电量过低', 'asset_code': 'TABLET015', 'asset_name': '苹果iPad Pro', 'message': '设备电量低于10%', 'severity': 'medium', 'created_at': '2025-08-15 11:00:00', 'status': 'read'},
+        {'id': 104, 'alert_type': '设备离线', 'asset_code': 'CAMERA016', 'asset_name': '索尼A7R5', 'message': '设备超过24小时未连接', 'severity': 'high', 'created_at': '2025-08-12 09:00:00', 'status': 'unread'},
+        {'id': 105, 'alert_type': '位置异常', 'asset_code': 'LAPTOP022', 'asset_name': '联想ThinkBook 14', 'message': '设备出现在非工作区域', 'severity': 'medium', 'created_at': '2025-08-05 18:00:00', 'status': 'resolved'},
+        {'id': 106, 'alert_type': '电量过低', 'asset_code': 'LAPTOP031', 'asset_name': '华硕ZenBook Pro', 'message': '设备电量低于10%', 'severity': 'medium', 'created_at': '2025-07-28 14:00:00', 'status': 'resolved'},
+        {'id': 107, 'alert_type': '设备离线', 'asset_code': 'SERVER020', 'asset_name': '华为RH2288H V5', 'message': '设备超过24小时未连接', 'severity': 'high', 'created_at': '2025-07-20 12:00:00', 'status': 'unread'},
+        {'id': 108, 'alert_type': '位置异常', 'asset_code': 'PROJECTOR032', 'asset_name': '明基TK700STi', 'message': '设备出现在非工作区域', 'severity': 'medium', 'created_at': '2025-07-10 16:00:00', 'status': 'resolved'},
+    ]
+    alerts.extend(new_alerts)
+
+    # Sort all alerts by date
+    alerts.sort(key=lambda x: datetime.strptime(x['created_at'], '%Y-%m-%d %H:%M:%S'), reverse=True)
+
     # 统计数据
     unread_alerts = len([a for a in alerts if a['status'] == 'unread'])
     high_alerts = len([a for a in alerts if a['severity'] == 'high'])

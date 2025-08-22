@@ -2,7 +2,7 @@
 <div class="stats-grid">
   <div class="stat-card">
     <div class="icon"><i class="fas fa-satellite-dish"></i></div>
-    <div class="number">22</div>
+    <div class="number">28</div>
     <div class="label">在线设备</div>
   </div>
   <div class="stat-card">
@@ -86,13 +86,13 @@
           <td>
             <button
               class="btn btn-primary btn-sm"
-              onclick="locateAsset({{ location.id }})"
+              onclick="officeMap.highlightDevice({{ location.id }})"
             >
               定位
             </button>
             <button
               class="btn btn-success btn-sm"
-              onclick="showTrajectory({{ location.id }})"
+              onclick="officeMap.showTrajectory({{ location.id }})"
             >
               轨迹
             </button>
