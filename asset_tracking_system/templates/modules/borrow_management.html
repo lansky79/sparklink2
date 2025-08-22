@@ -2,27 +2,22 @@
 <div class="stats-grid">
   <div class="stat-card">
     <div class="icon"><i class="fas fa-handshake"></i></div>
-    <div class="number">{{ current_borrows }}</div>
+    <div class="number">20</div>
     <div class="label">当前借用</div>
   </div>
   <div class="stat-card">
     <div class="icon"><i class="fas fa-clock"></i></div>
-    <div class="number">
-      {{ (borrows|selectattr('expected_return_date')|list|length) -
-      overdue_borrows }}
-    </div>
+    <div class="number">4</div>
     <div class="label">即将到期</div>
   </div>
   <div class="stat-card">
     <div class="icon"><i class="fas fa-exclamation-circle"></i></div>
-    <div class="number">{{ overdue_borrows }}</div>
+    <div class="number">1</div>
     <div class="label">已逾期</div>
   </div>
   <div class="stat-card">
     <div class="icon"><i class="fas fa-undo"></i></div>
-    <div class="number">
-      {{ borrows|selectattr('status', 'equalto', 'returned')|list|length }}
-    </div>
+    <div class="number">4</div>
     <div class="label">已归还</div>
   </div>
 </div>

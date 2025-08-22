@@ -6,18 +6,8 @@
     <div class="label">系统用户</div>
   </div>
   <div class="stat-card">
-    <div class="icon"><i class="fas fa-user-shield"></i></div>
-    <div class="number">3</div>
-    <div class="label">管理员</div>
-  </div>
-  <div class="stat-card">
-    <div class="icon"><i class="fas fa-user-check"></i></div>
-    <div class="number">25</div>
-    <div class="label">活跃用户</div>
-  </div>
-  <div class="stat-card">
     <div class="icon"><i class="fas fa-key"></i></div>
-    <div class="number">5</div>
+    <div class="number">4</div>
     <div class="label">权限角色</div>
   </div>
 </div>
@@ -43,37 +33,313 @@
           </tr>
         </thead>
         <tbody>
-          {% for user in users %}
           <tr>
-            <td>{{ user.username }}</td>
-            <td>{% if user.role == 'admin' %}系统管理员{% else %}{{ user.name }}{% endif %}</td>
-            <td>{{ user.department }}</td>
-            <td>{{ user.role }}</td>
+            <td>admin</td>
+            <td>系统管理员</td>
+            <td>系统</td>
+            <td>超级管理员</td>
+            <td><span class="status-badge status-available">正常</span></td>
             <td>
-              {% if user.status == 'active' %}
-              <span class="status-badge status-available">正常</span>
-              {% else %}
-              <span class="status-badge status-maintenance">禁用</span>
-              {% endif %}
-            </td>
-            <td>
-              <button class="btn btn-warning btn-sm" onclick="editUser({{ user.id }})">
-                编辑
-              </button>
-              {% if user.role != 'admin' %}
-                {% if user.status == 'active' %}
-                <button class="btn btn-danger btn-sm" onclick="disableUser({{ user.id }})">
-                  禁用
-                </button>
-                {% else %}
-                <button class="btn btn-success btn-sm" onclick="enableUser({{ user.id }})">
-                  启用
-                </button>
-                {% endif %}
-              {% endif %}
+              <button class="btn btn-warning btn-sm">编辑</button>
             </td>
           </tr>
-          {% endfor %}
+          <tr>
+            <td>liu_yang</td>
+            <td>刘洋</td>
+            <td>人事部</td>
+            <td>资产管理员</td>
+            <td><span class="status-badge status-available">正常</span></td>
+            <td>
+              <button class="btn btn-warning btn-sm">编辑</button>
+              <button class="btn btn-danger btn-sm">禁用</button>
+            </td>
+          </tr>
+          <tr>
+            <td>lin_tao</td>
+            <td>林涛</td>
+            <td>研发部</td>
+            <td>资产管理员</td>
+            <td><span class="status-badge status-available">正常</span></td>
+            <td>
+              <button class="btn btn-warning btn-sm">编辑</button>
+              <button class="btn btn-danger btn-sm">禁用</button>
+            </td>
+          </tr>
+          <tr>
+            <td>wangqiang</td>
+            <td>王强</td>
+            <td>研发部</td>
+            <td>部门管理员</td>
+            <td><span class="status-badge status-available">正常</span></td>
+            <td>
+              <button class="btn btn-warning btn-sm">编辑</button>
+              <button class="btn btn-danger btn-sm">禁用</button>
+            </td>
+          </tr>
+          <tr>
+            <td>gao_feng</td>
+            <td>高风</td>
+            <td>财务部</td>
+            <td>部门管理员</td>
+            <td><span class="status-badge status-available">正常</span></td>
+            <td>
+              <button class="btn btn-warning btn-sm">编辑</button>
+              <button class="btn btn-danger btn-sm">禁用</button>
+            </td>
+          </tr>
+          <tr>
+            <td>song_ping</td>
+            <td>宋平</td>
+            <td>行政部</td>
+            <td>部门管理员</td>
+            <td><span class="status-badge status-available">正常</span></td>
+            <td>
+              <button class="btn btn-warning btn-sm">编辑</button>
+              <button class="btn btn-danger btn-sm">禁用</button>
+            </td>
+          </tr>
+          <tr>
+            <td>zhangwei</td>
+            <td>张伟</td>
+            <td>研发部</td>
+            <td>普通用户</td>
+            <td><span class="status-badge status-available">正常</span></td>
+            <td>
+              <button class="btn btn-warning btn-sm">编辑</button>
+              <button class="btn btn-danger btn-sm">禁用</button>
+            </td>
+          </tr>
+          <tr>
+            <td>li_na</td>
+            <td>李娜</td>
+            <td>市场部</td>
+            <td>普通用户</td>
+            <td><span class="status-badge status-available">正常</span></td>
+            <td>
+              <button class="btn btn-warning btn-sm">编辑</button>
+              <button class="btn btn-danger btn-sm">禁用</button>
+            </td>
+          </tr>
+          <tr>
+            <td>chen_li</td>
+            <td>陈丽</td>
+            <td>财务部</td>
+            <td>普通用户</td>
+            <td><span class="status-badge status-maintenance">禁用</span></td>
+            <td>
+              <button class="btn btn-warning btn-sm">编辑</button>
+              <button class="btn btn-success btn-sm">启用</button>
+            </td>
+          </tr>
+          <tr>
+            <td>zhao_min</td>
+            <td>赵敏</td>
+            <td>研发部</td>
+            <td>普通用户</td>
+            <td><span class="status-badge status-available">正常</span></td>
+            <td>
+              <button class="btn btn-warning btn-sm">编辑</button>
+              <button class="btn btn-danger btn-sm">禁用</button>
+            </td>
+          </tr>
+          <tr>
+            <td>zhou_peng</td>
+            <td>周鹏</td>
+            <td>市场部</td>
+            <td>普通用户</td>
+            <td><span class="status-badge status-available">正常</span></td>
+            <td>
+              <button class="btn btn-warning btn-sm">编辑</button>
+              <button class="btn btn-danger btn-sm">禁用</button>
+            </td>
+          </tr>
+          <tr>
+            <td>wu_jing</td>
+            <td>吴静</td>
+            <td>财务部</td>
+            <td>普通用户</td>
+            <td><span class="status-badge status-available">正常</span></td>
+            <td>
+              <button class="btn btn-warning btn-sm">编辑</button>
+              <button class="btn btn-danger btn-sm">禁用</button>
+            </td>
+          </tr>
+          <tr>
+            <td>sun_yue</td>
+            <td>孙悦</td>
+            <td>研发部</td>
+            <td>普通用户</td>
+            <td><span class="status-badge status-available">正常</span></td>
+            <td>
+              <button class="btn btn-warning btn-sm">编辑</button>
+              <button class="btn btn-danger btn-sm">禁用</button>
+            </td>
+          </tr>
+          <tr>
+            <td>ma_chao</td>
+            <td>马超</td>
+            <td>人事部</td>
+            <td>普通用户</td>
+            <td><span class="status-badge status-maintenance">禁用</span></td>
+            <td>
+              <button class="btn btn-warning btn-sm">编辑</button>
+              <button class="btn btn-success btn-sm">启用</button>
+            </td>
+          </tr>
+          <tr>
+            <td>huang_yan</td>
+            <td>黄燕</td>
+            <td>市场部</td>
+            <td>普通用户</td>
+            <td><span class="status-badge status-available">正常</span></td>
+            <td>
+              <button class="btn btn-warning btn-sm">编辑</button>
+              <button class="btn btn-danger btn-sm">禁用</button>
+            </td>
+          </tr>
+          <tr>
+            <td>xu_liang</td>
+            <td>徐亮</td>
+            <td>研发部</td>
+            <td>普通用户</td>
+            <td><span class="status-badge status-available">正常</span></td>
+            <td>
+              <button class="btn btn-warning btn-sm">编辑</button>
+              <button class="btn btn-danger btn-sm">禁用</button>
+            </td>
+          </tr>
+          <tr>
+            <td>deng_fang</td>
+            <td>邓芳</td>
+            <td>行政部</td>
+            <td>普通用户</td>
+            <td><span class="status-badge status-available">正常</span></td>
+            <td>
+              <button class="btn btn-warning btn-sm">编辑</button>
+              <button class="btn btn-danger btn-sm">禁用</button>
+            </td>
+          </tr>
+          <tr>
+            <td>cao_yu</td>
+            <td>曹宇</td>
+            <td>研发部</td>
+            <td>普通用户</td>
+            <td><span class="status-badge status-available">正常</span></td>
+            <td>
+              <button class="btn btn-warning btn-sm">编辑</button>
+              <button class="btn btn-danger btn-sm">禁用</button>
+            </td>
+          </tr>
+          <tr>
+            <td>yuan_xiu</td>
+            <td>袁秀</td>
+            <td>市场部</td>
+            <td>普通用户</td>
+            <td><span class="status-badge status-available">正常</span></td>
+            <td>
+              <button class="btn btn-warning btn-sm">编辑</button>
+              <button class="btn btn-danger btn-sm">禁用</button>
+            </td>
+          </tr>
+          <tr>
+            <td>tang_jie</td>
+            <td>唐杰</td>
+            <td>财务部</td>
+            <td>普通用户</td>
+            <td><span class="status-badge status-available">正常</span></td>
+            <td>
+              <button class="btn btn-warning btn-sm">编辑</button>
+              <button class="btn btn-danger btn-sm">禁用</button>
+            </td>
+          </tr>
+          <tr>
+            <td>han_lei</td>
+            <td>韩磊</td>
+            <td>研发部</td>
+            <td>普通用户</td>
+            <td><span class="status-badge status-available">正常</span></td>
+            <td>
+              <button class="btn btn-warning btn-sm">编辑</button>
+              <button class="btn btn-danger btn-sm">禁用</button>
+            </td>
+          </tr>
+          <tr>
+            <td>feng_yi</td>
+            <td>冯毅</td>
+            <td>人事部</td>
+            <td>普通用户</td>
+            <td><span class="status-badge status-available">正常</span></td>
+            <td>
+              <button class="btn btn-warning btn-sm">编辑</button>
+              <button class="btn btn-danger btn-sm">禁用</button>
+            </td>
+          </tr>
+          <tr>
+            <td>cui_jing</td>
+            <td>崔静</td>
+            <td>市场部</td>
+            <td>普通用户</td>
+            <td><span class="status-badge status-maintenance">禁用</span></td>
+            <td>
+              <button class="btn btn-warning btn-sm">编辑</button>
+              <button class="btn btn-success btn-sm">启用</button>
+            </td>
+          </tr>
+          <tr>
+            <td>pan_hao</td>
+            <td>潘浩</td>
+            <td>研发部</td>
+            <td>普通用户</td>
+            <td><span class="status-badge status-available">正常</span></td>
+            <td>
+              <button class="btn btn-warning btn-sm">编辑</button>
+              <button class="btn btn-danger btn-sm">禁用</button>
+            </td>
+          </tr>
+          <tr>
+            <td>luo_bin</td>
+            <td>罗斌</td>
+            <td>行政部</td>
+            <td>普通用户</td>
+            <td><span class="status-badge status-available">正常</span></td>
+            <td>
+              <button class="btn btn-warning btn-sm">编辑</button>
+              <button class="btn btn-danger btn-sm">禁用</button>
+            </td>
+          </tr>
+          <tr>
+            <td>cheng_lin</td>
+            <td>程琳</td>
+            <td>财务部</td>
+            <td>普通用户</td>
+            <td><span class="status-badge status-available">正常</span></td>
+            <td>
+              <button class="btn btn-warning btn-sm">编辑</button>
+              <button class="btn btn-danger btn-sm">禁用</button>
+            </td>
+          </tr>
+          <tr>
+            <td>wei_lan</td>
+            <td>魏兰</td>
+            <td>研发部</td>
+            <td>普通用户</td>
+            <td><span class="status-badge status-available">正常</span></td>
+            <td>
+              <button class="btn btn-warning btn-sm">编辑</button>
+              <button class="btn btn-danger btn-sm">禁用</button>
+            </td>
+          </tr>
+          <tr>
+            <td>ding_jun</td>
+            <td>丁俊</td>
+            <td>市场部</td>
+            <td>普通用户</td>
+            <td><span class="status-badge status-available">正常</span></td>
+            <td>
+              <button class="btn btn-warning btn-sm">编辑</button>
+              <button class="btn btn-danger btn-sm">禁用</button>
+            </td>
+          </tr>
         </tbody>
       </table>
     </div>
