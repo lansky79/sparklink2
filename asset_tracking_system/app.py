@@ -213,12 +213,14 @@ def alert_notification():
     unread_alerts = len([a for a in alerts if a['status'] == 'unread'])
     high_alerts = len([a for a in alerts if a['severity'] == 'high'])
     resolved_alerts = len([a for a in alerts if a['status'] == 'resolved'])
+    unprocessed_alerts = 6
     
     conn.close()
     
     return render_template('index.html', active_page='alert_notification',
                          alerts=alerts, unread_alerts=unread_alerts,
-                         high_alerts=high_alerts, resolved_alerts=resolved_alerts)
+                         high_alerts=high_alerts, resolved_alerts=resolved_alerts,
+                         unprocessed_alerts=unprocessed_alerts)
 
 # 星闪诊断功能已合并到盘点核查模块
 
