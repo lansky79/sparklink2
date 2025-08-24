@@ -6,9 +6,7 @@ import os
 app = Flask(__name__)
 app.secret_key = 'your-secret-key-here'
 
-# 确保数据库初始化
-if not os.path.exists('data'):
-    os.makedirs('data')
+# 数据库通过 database.py 中的 get_db_connection 初始化
 init_db()
 
 @app.route('/login')
@@ -119,7 +117,12 @@ def maintenance_management():
 def inventory_check():
     conn = get_db_connection()
     inventories = conn.execute('''
-        SELECT ir.*, a.asset_name, a.asset_code
+        SELECT 
+            ir.*, 
+            a.asset_name, 
+            a.asset_code,
+            a.battery_level,
+            (SELECT signal_strength FROM location_history WHERE asset_id = a.id ORDER BY timestamp DESC LIMIT 1) as signal_strength
         FROM inventory_records ir
         JOIN assets a ON ir.asset_id = a.id
         ORDER BY ir.inventory_date DESC
@@ -192,28 +195,15 @@ def alert_notification():
     ''').fetchall()
 
     alerts = [dict(alert) for alert in db_alerts]
-    
-    # Add 8 new alerts
-    new_alerts = [
-        {'id': 101, 'alert_type': '设备离线', 'asset_code': 'LAPTOP010', 'asset_name': '联想ThinkPad T14', 'message': '设备超过24小时未连接', 'severity': 'high', 'created_at': '2025-08-20 10:00:00', 'status': 'unread'},
-        {'id': 102, 'alert_type': '位置异常', 'asset_code': 'DRONE008', 'asset_name': '大疆无人机', 'message': '设备出现在非工作区域', 'severity': 'medium', 'created_at': '2025-08-18 15:30:00', 'status': 'unread'},
-        {'id': 103, 'alert_type': '电量过低', 'asset_code': 'TABLET015', 'asset_name': '苹果iPad Pro', 'message': '设备电量低于10%', 'severity': 'medium', 'created_at': '2025-08-15 11:00:00', 'status': 'read'},
-        {'id': 104, 'alert_type': '设备离线', 'asset_code': 'CAMERA016', 'asset_name': '索尼A7R5', 'message': '设备超过24小时未连接', 'severity': 'high', 'created_at': '2025-08-12 09:00:00', 'status': 'unread'},
-        {'id': 105, 'alert_type': '位置异常', 'asset_code': 'LAPTOP022', 'asset_name': '联想ThinkBook 14', 'message': '设备出现在非工作区域', 'severity': 'medium', 'created_at': '2025-08-05 18:00:00', 'status': 'resolved'},
-        {'id': 106, 'alert_type': '电量过低', 'asset_code': 'LAPTOP031', 'asset_name': '华硕ZenBook Pro', 'message': '设备电量低于10%', 'severity': 'medium', 'created_at': '2025-07-28 14:00:00', 'status': 'resolved'},
-        {'id': 107, 'alert_type': '设备离线', 'asset_code': 'SERVER020', 'asset_name': '华为RH2288H V5', 'message': '设备超过24小时未连接', 'severity': 'high', 'created_at': '2025-07-20 12:00:00', 'status': 'unread'},
-        {'id': 108, 'alert_type': '位置异常', 'asset_code': 'PROJECTOR032', 'asset_name': '明基TK700STi', 'message': '设备出现在非工作区域', 'severity': 'medium', 'created_at': '2025-07-10 16:00:00', 'status': 'resolved'},
-    ]
-    alerts.extend(new_alerts)
 
     # Sort all alerts by date
-    alerts.sort(key=lambda x: datetime.strptime(x['created_at'], '%Y-%m-%d %H:%M:%S'), reverse=True)
+    # alerts.sort(key=lambda x: datetime.strptime(x['created_at'], '%Y-%m-%d %H:%M:%S'), reverse=True)
 
     # 统计数据
     unread_alerts = len([a for a in alerts if a['status'] == 'unread'])
     high_alerts = len([a for a in alerts if a['severity'] == 'high'])
     resolved_alerts = len([a for a in alerts if a['status'] == 'resolved'])
-    unprocessed_alerts = 6
+    unprocessed_alerts = len(alerts) - resolved_alerts
     
     conn.close()
     
@@ -221,6 +211,40 @@ def alert_notification():
                          alerts=alerts, unread_alerts=unread_alerts,
                          high_alerts=high_alerts, resolved_alerts=resolved_alerts,
                          unprocessed_alerts=unprocessed_alerts)
+
+@app.route('/tracker_diagnostics')
+def tracker_diagnostics():
+    conn = get_db_connection()
+    trackers = conn.execute('''
+        SELECT
+            a.star_flash_tag_id,
+            a.asset_code,
+            a.battery_level,
+            lh.signal_strength,
+            lh.accuracy,
+            lh.timestamp
+        FROM assets a
+        LEFT JOIN location_history lh ON a.id = lh.asset_id
+        WHERE a.star_flash_tag_id IS NOT NULL AND (lh.id IN (
+            SELECT MAX(id) FROM location_history GROUP BY asset_id
+        ) OR lh.id IS NULL)
+        ORDER BY a.star_flash_tag_id
+    ''').fetchall()
+    conn.close()
+
+    # Calculate statistics
+    online_trackers = len([t for t in trackers if t['signal_strength'] is not None])
+    offline_trackers = len(trackers) - online_trackers
+    signal_anomalies = len([t for t in trackers if t['signal_strength'] is not None and t['signal_strength'] < -60])
+    low_battery_warnings = len([t for t in trackers if t['battery_level'] is not None and t['battery_level'] < 20])
+
+    return render_template('index.html', 
+                         active_page='tracker_diagnostics', 
+                         trackers=trackers,
+                         online_trackers=online_trackers,
+                         offline_trackers=offline_trackers,
+                         signal_anomalies=signal_anomalies,
+                         low_battery_warnings=low_battery_warnings)
 
 # 星闪诊断功能已合并到盘点核查模块
 

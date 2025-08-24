@@ -69,6 +69,14 @@
             </a>
           </li>
           <li
+            class="nav-item {{ 'active' if active_page == 'tracker_diagnostics' }}"
+          >
+            <a href="{{ url_for('tracker_diagnostics') }}">
+              <i class="fas fa-stethoscope"></i>
+              <span>星闪诊断</span>
+            </a>
+          </li>
+          <li
             class="nav-item {{ 'active' if active_page == 'report_statistics' }}"
           >
             <a href="{{ url_for('report_statistics') }}">

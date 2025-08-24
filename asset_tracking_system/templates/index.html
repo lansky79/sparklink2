@@ -1,19 +1,36 @@
-{% extends "base.html" %} {% block page_title %} {% if active_page ==
-'asset_register' %}资产登记管理 {% elif active_page == 'location_tracking'
-%}位置追踪监控 {% elif active_page == 'borrow_management' %}借用管理 {% elif
-active_page == 'maintenance_management' %}维护管理 {% elif active_page ==
-'inventory_check' %}盘点核查 {% elif active_page == 'report_statistics'
-%}报表统计 {% elif active_page == 'permission_management' %}权限管理 {% elif
-active_page == 'alert_notification' %}告警通知 {% endif %} {% endblock %} {%
-block content %} {% if active_page == 'asset_register' %} {% include
-'modules/asset_register.html' %} {% elif active_page == 'location_tracking' %}
-{% include 'modules/location_tracking.html' %} {% elif active_page ==
-'borrow_management' %} {% include 'modules/borrow_management.html' %} {% elif
-active_page == 'maintenance_management' %} {% include
-'modules/maintenance_management.html' %} {% elif active_page ==
-'inventory_check' %} {% include 'modules/inventory_check.html' %} {% elif
-active_page == 'report_statistics' %} {% include
-'modules/report_statistics.html' %} {% elif active_page ==
-'permission_management' %} {% include 'modules/permission_management.html' %} {%
-elif active_page == 'alert_notification' %} {% include
-'modules/alert_notification.html' %} {% endif %} {% endblock %}
+{% extends "base.html" %} 
+
+{% block page_title %}
+  {% if active_page == 'asset_register' %}资产登记管理
+  {% elif active_page == 'location_tracking' %}位置追踪监控
+  {% elif active_page == 'borrow_management' %}借用管理
+  {% elif active_page == 'maintenance_management' %}维护管理
+  {% elif active_page == 'inventory_check' %}盘点核查
+  {% elif active_page == 'tracker_diagnostics' %}星闪诊断
+  {% elif active_page == 'report_statistics' %}报表统计
+  {% elif active_page == 'permission_management' %}权限管理
+  {% elif active_page == 'alert_notification' %}告警通知
+  {% endif %}
+{% endblock %}
+
+{% block content %}
+  {% if active_page == 'asset_register' %}
+    {% include 'modules/asset_register.html' %}
+  {% elif active_page == 'location_tracking' %}
+    {% include 'modules/location_tracking.html' %}
+  {% elif active_page == 'borrow_management' %}
+    {% include 'modules/borrow_management.html' %}
+  {% elif active_page == 'maintenance_management' %}
+    {% include 'modules/maintenance_management.html' %}
+  {% elif active_page == 'inventory_check' %}
+    {% include 'modules/inventory_check.html' %}
+  {% elif active_page == 'tracker_diagnostics' %}
+    {% include 'modules/tracker_diagnostics.html' %}
+  {% elif active_page == 'report_statistics' %}
+    {% include 'modules/report_statistics.html' %}
+  {% elif active_page == 'permission_management' %}
+    {% include 'modules/permission_management.html' %}
+  {% elif active_page == 'alert_notification' %}
+    {% include 'modules/alert_notification.html' %}
+  {% endif %}
+{% endblock %}

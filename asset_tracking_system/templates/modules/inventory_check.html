@@ -90,9 +90,15 @@
           <td>{{ inventory.asset_name }}</td>
           <td>{{ inventory.expected_location }}</td>
           <td>{{ inventory.actual_location }}</td>
-          <td><span class="status-badge status-available">在线</span></td>
-          <td>-35dBm</td>
-          <td>85%</td>
+          <td>
+            {% if inventory.signal_strength %}
+            <span class="status-badge status-available">在线</span>
+            {% else %}
+            <span class="status-badge status-maintenance">离线</span>
+            {% endif %}
+          </td>
+          <td>{{ inventory.signal_strength or 'N/A' }}dBm</td>
+          <td>{{ inventory.battery_level or 'N/A' }}%</td>
           <td>
             {% if inventory.status == 'normal' %}
             <span class="status-badge status-available">正常</span>
