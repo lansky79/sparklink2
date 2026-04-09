@@ -1,26 +1,22 @@
 import sqlite3
 import os
-from datetime import datetime
 
-# Build paths relative to the script's location
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 DATA_DIR = os.path.join(BASE_DIR, 'data')
 DATABASE_PATH = os.path.join(DATA_DIR, 'assets.db')
 
+
 def get_db_connection():
-    """获取数据库连接"""
-    # Ensure the data directory exists
     if not os.path.exists(DATA_DIR):
         os.makedirs(DATA_DIR)
     conn = sqlite3.connect(DATABASE_PATH)
     conn.row_factory = sqlite3.Row
     return conn
 
+
 def init_db():
-    """初始化数据库表"""
     conn = get_db_connection()
-    
-    # 资产信息表
+
     conn.execute('''
         CREATE TABLE IF NOT EXISTS assets (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -39,8 +35,7 @@ def init_db():
             updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
         )
     ''')
-    
-    # 位置追踪表
+
     conn.execute('''
         CREATE TABLE IF NOT EXISTS location_history (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -54,8 +49,7 @@ def init_db():
             FOREIGN KEY (asset_id) REFERENCES assets (id)
         )
     ''')
-    
-    # 借用记录表
+
     conn.execute('''
         CREATE TABLE IF NOT EXISTS borrow_records (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -71,8 +65,7 @@ def init_db():
             FOREIGN KEY (asset_id) REFERENCES assets (id)
         )
     ''')
-    
-    # 维护记录表
+
     conn.execute('''
         CREATE TABLE IF NOT EXISTS maintenance_records (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -88,8 +81,7 @@ def init_db():
             FOREIGN KEY (asset_id) REFERENCES assets (id)
         )
     ''')
-    
-    # 盘点记录表
+
     conn.execute('''
         CREATE TABLE IF NOT EXISTS inventory_records (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -104,8 +96,7 @@ def init_db():
             FOREIGN KEY (asset_id) REFERENCES assets (id)
         )
     ''')
-    
-    # 用户权限表
+
     conn.execute('''
         CREATE TABLE IF NOT EXISTS users (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -120,8 +111,7 @@ def init_db():
             created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
         )
     ''')
-    
-    # 告警通知表
+
     conn.execute('''
         CREATE TABLE IF NOT EXISTS alerts (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -136,6 +126,6 @@ def init_db():
             FOREIGN KEY (asset_id) REFERENCES assets (id)
         )
     ''')
-    
+
     conn.commit()
     conn.close()

@@ -1,81 +1,49 @@
+// 地图画布配置
+var MAP_WIDTH = 1000;
+var MAP_HEIGHT = 600;
 
-
-// 真实写字楼平面图 - 更大面积，更小虚线间距
 class RealisticOfficeFloorPlan {
   constructor(containerId) {
     this.container = document.getElementById(containerId);
-    this.width = 1000;
-    this.height = 600;
+    this.width = MAP_WIDTH;
+    this.height = MAP_HEIGHT;
     this.devices = [];
-    this.svgNS = "http://www.w3.org/2000/svg";
+    this.svgNS = 'http://www.w3.org/2000/svg';
     this.svg = null;
     this.init();
   }
 
   init() {
-    // 创建主容器样式
     this.container.innerHTML = '';
-    this.container.style.cssText = `
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            border-radius: 12px;
-            padding: 20px;
-            box-shadow: 0 8px 32px rgba(0,0,0,0.1);
-            position: relative;
-        `;
+    this.container.style.cssText = 'background:linear-gradient(135deg,#667eea 0%,#764ba2 100%);border-radius:12px;padding:20px;box-shadow:0 8px 32px rgba(0,0,0,0.1);position:relative;';
 
-    // 创建地图标题
-    const title = document.createElement("div");
-    title.style.cssText = `
-            color: white;
-            font-size: 18px;
-            font-weight: 600;
-            margin-bottom: 15px;
-            text-align: center;
-            text-shadow: 0 2px 4px rgba(0,0,0,0.3);
-        `;
-    title.innerHTML =
-      '<i class="fas fa-building"></i> 设备资产定位管理系统 - 15F 办公楼层平面图';
+    var title = document.createElement('div');
+    title.style.cssText = 'color:#fff;font-size:18px;font-weight:600;margin-bottom:15px;text-align:center;text-shadow:0 2px 4px rgba(0,0,0,0.3);';
+    title.innerHTML = '<i class="fas fa-building"></i> 设备资产定位管理系统 - 15F 办公楼层平面图';
     this.container.appendChild(title);
 
-    // 创建地图容器
-    const mapWrapper = document.createElement("div");
-    mapWrapper.style.cssText = `
-            background: white;
-            border-radius: 8px;
-            padding: 15px;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.15);
-            position: relative;
-        `;
+    var mapWrapper = document.createElement('div');
+    mapWrapper.style.cssText = 'background:#fff;border-radius:8px;padding:15px;box-shadow:0 4px 20px rgba(0,0,0,0.15);position:relative;';
     this.container.appendChild(mapWrapper);
 
-    // 创建SVG地图
-    this.svg = document.createElementNS(this.svgNS, "svg");
-    this.svg.setAttribute("width", "100%");
-    this.svg.setAttribute("height", this.height);
-    this.svg.setAttribute("viewBox", `0 0 ${this.width} ${this.height}`);
-    this.svg.style.backgroundColor = "#f8f9fa";
-    this.svg.style.borderRadius = "6px";
-    this.svg.style.border = "1px solid #e9ecef";
-
+    this.svg = document.createElementNS(this.svgNS, 'svg');
+    this.svg.setAttribute('width', '100%');
+    this.svg.setAttribute('height', this.height);
+    this.svg.setAttribute('viewBox', '0 0 ' + this.width + ' ' + this.height);
+    this.svg.style.backgroundColor = '#f8f9fa';
+    this.svg.style.borderRadius = '6px';
+    this.svg.style.border = '1px solid #e9ecef';
     mapWrapper.appendChild(this.svg);
 
-    // 添加渐变和阴影定义
     this.addDefinitions();
-
-    // 绘制真实写字楼平面图
     this.drawRealisticOfficeLayout();
-
-    // 加载设备位置
     this.loadDeviceLocations();
-
-    // 添加图例和比例尺
     this.addLegendAndScale();
   }
 
   addDefinitions() {
     const defs = document.createElementNS(this.svgNS, "defs");
 
-    // 办公区域渐变
     const officeGradient = document.createElementNS(
       this.svgNS,
       "linearGradient"
@@ -98,7 +66,6 @@ class RealisticOfficeFloorPlan {
     officeGradient.appendChild(stop2);
     defs.appendChild(officeGradient);
 
-    // 公共区域渐变（灰色）
     const publicGradient = document.createElementNS(
       this.svgNS,
       "linearGradient"
@@ -121,7 +88,6 @@ class RealisticOfficeFloorPlan {
     publicGradient.appendChild(grayStop2);
     defs.appendChild(publicGradient);
 
-    // 阴影滤镜
     const filter = document.createElementNS(this.svgNS, "filter");
     filter.setAttribute("id", "buildingShadow");
     filter.setAttribute("x", "-20%");
@@ -142,21 +108,14 @@ class RealisticOfficeFloorPlan {
   }
 
   drawRealisticOfficeLayout() {
-    // 绘制建筑外轮廓
     this.drawBuildingOutline();
-
-    // 绘制公共区域（电梯、楼梯、卫生间）
     this.drawPublicAreas();
-
-    // 绘制完全连通的办公区域
     this.drawConnectedOfficeAreas();
-
-    // 绘制建筑细节
     this.drawBuildingDetails();
   }
 
   drawBuildingOutline() {
-    // L型写字楼外轮廓 - 更大面积
+    // L型写字楼外轮廓
     const buildingPath = `
             M 50 50 
             L 900 50 
@@ -175,7 +134,6 @@ class RealisticOfficeFloorPlan {
     building.setAttribute("filter", "url(#buildingShadow)");
     this.svg.appendChild(building);
 
-    // 建筑名称
     const buildingName = document.createElementNS(this.svgNS, "text");
     buildingName.setAttribute("x", "475");
     buildingName.setAttribute("y", "30");
@@ -188,7 +146,6 @@ class RealisticOfficeFloorPlan {
   }
 
   drawPublicAreas() {
-    // 电梯井（公共区域）- 在过道中央位置
     const elevatorShaft = document.createElementNS(this.svgNS, "rect");
     elevatorShaft.setAttribute("x", "420");
     elevatorShaft.setAttribute("y", "225");
@@ -219,7 +176,6 @@ class RealisticOfficeFloorPlan {
     elevatorLabel.textContent = "电梯";
     this.svg.appendChild(elevatorLabel);
 
-    // 楼梯间（公共区域）
     const staircase = document.createElementNS(this.svgNS, "rect");
     staircase.setAttribute("x", "480");
     staircase.setAttribute("y", "225");
@@ -231,7 +187,6 @@ class RealisticOfficeFloorPlan {
     staircase.setAttribute("rx", "4");
     this.svg.appendChild(staircase);
 
-    // 绘制梯子图标
     this.drawLadderIcon(505, 240);
 
     const stairLabel = document.createElementNS(this.svgNS, "text");
@@ -243,7 +198,6 @@ class RealisticOfficeFloorPlan {
     stairLabel.textContent = "楼梯";
     this.svg.appendChild(stairLabel);
 
-    // 卫生间（公共区域）
     const restroom = document.createElementNS(this.svgNS, "rect");
     restroom.setAttribute("x", "360");
     restroom.setAttribute("y", "225");
@@ -276,7 +230,6 @@ class RealisticOfficeFloorPlan {
   drawLadderIcon(x, y) {
     const ladder = document.createElementNS(this.svgNS, "g");
 
-    // 梯子左边
     const ladderLeft = document.createElementNS(this.svgNS, "line");
     ladderLeft.setAttribute("x1", x - 10);
     ladderLeft.setAttribute("y1", y - 10);
@@ -286,7 +239,6 @@ class RealisticOfficeFloorPlan {
     ladderLeft.setAttribute("stroke-width", "2");
     ladder.appendChild(ladderLeft);
 
-    // 梯子右边
     const ladderRight = document.createElementNS(this.svgNS, "line");
     ladderRight.setAttribute("x1", x + 10);
     ladderRight.setAttribute("y1", y - 10);
@@ -296,7 +248,6 @@ class RealisticOfficeFloorPlan {
     ladderRight.setAttribute("stroke-width", "2");
     ladder.appendChild(ladderRight);
 
-    // 梯子横档
     for (let i = 0; i < 4; i++) {
       const rung = document.createElementNS(this.svgNS, "line");
       rung.setAttribute("x1", x - 10);
@@ -312,18 +263,14 @@ class RealisticOfficeFloorPlan {
   }
 
   drawConnectedOfficeAreas() {
-    // 绘制主过道 - 连接所有办公区域
     this.drawMainCorridor();
 
-    // 办公区域紧贴墙体，过道合理分割上下两部分
     const officeAreas = [
-      // 上半部分办公区域 - 紧贴上边缘
       { name: "研发部", x: 55, y: 55, width: 160, height: 160, icon: "💻" },
       { name: "设计部", x: 220, y: 55, width: 130, height: 160, icon: "🎨" },
       { name: "市场部", x: 570, y: 55, width: 130, height: 160, icon: "📊" },
       { name: "机房", x: 705, y: 55, width: 190, height: 160, icon: "🖥️" },
 
-      // 下半部分办公区域 - 紧贴下边缘
       {
         name: "行政部",
         x: 55,
@@ -372,12 +319,10 @@ class RealisticOfficeFloorPlan {
     ];
 
     officeAreas.forEach((area) => {
-      // 根据区域类型设置不同的背景色
       const fillColor = area.type === "corridor" ? "#ecf0f1" : "#e3f2fd";
       const strokeColor = area.type === "corridor" ? "#bdc3c7" : "#1976d2";
       const textColor = area.type === "corridor" ? "#7f8c8d" : "#1565c0";
 
-      // 办公区域背景填充
       const areaBackground = document.createElementNS(this.svgNS, "rect");
       areaBackground.setAttribute("x", area.x);
       areaBackground.setAttribute("y", area.y);
@@ -387,7 +332,6 @@ class RealisticOfficeFloorPlan {
       areaBackground.setAttribute("opacity", "0.6");
       this.svg.appendChild(areaBackground);
 
-      // 边框分隔区域
       const areaBorder = document.createElementNS(this.svgNS, "rect");
       areaBorder.setAttribute("x", area.x);
       areaBorder.setAttribute("y", area.y);
@@ -400,7 +344,6 @@ class RealisticOfficeFloorPlan {
       areaBorder.setAttribute("opacity", "0.7");
       this.svg.appendChild(areaBorder);
 
-      // 区域标签
       const areaLabel = document.createElementNS(this.svgNS, "text");
       areaLabel.setAttribute("x", area.x + 10);
       areaLabel.setAttribute("y", area.y + 20);
@@ -411,12 +354,10 @@ class RealisticOfficeFloorPlan {
       this.svg.appendChild(areaLabel);
     });
 
-    // 在右下角缺角部分添加楼梯间
     this.drawCornerStaircase();
   }
 
   drawMainCorridor() {
-    // 绘制主过道 - 水平过道，将楼层分为上下两部分
     const horizontalCorridor = document.createElementNS(this.svgNS, "rect");
     horizontalCorridor.setAttribute("x", "55");
     horizontalCorridor.setAttribute("y", "220");
@@ -427,7 +368,6 @@ class RealisticOfficeFloorPlan {
     horizontalCorridor.setAttribute("stroke-width", "1");
     this.svg.appendChild(horizontalCorridor);
 
-    // 主入口连接区域 - 连接到主过道
     const entranceArea = document.createElementNS(this.svgNS, "rect");
     entranceArea.setAttribute("x", "355");
     entranceArea.setAttribute("y", "55");
@@ -438,7 +378,6 @@ class RealisticOfficeFloorPlan {
     entranceArea.setAttribute("stroke-width", "1");
     this.svg.appendChild(entranceArea);
 
-    // 过道标识
     const corridorText = document.createElementNS(this.svgNS, "text");
     corridorText.setAttribute("x", "475");
     corridorText.setAttribute("y", "245");
@@ -450,7 +389,6 @@ class RealisticOfficeFloorPlan {
   }
 
   drawCornerStaircase() {
-    // 在右下角缺角部分绘制楼梯间 - 占满整个方框
     const cornerStaircase = document.createElementNS(this.svgNS, "rect");
     cornerStaircase.setAttribute("x", "750");
     cornerStaircase.setAttribute("y", "265");
@@ -462,12 +400,10 @@ class RealisticOfficeFloorPlan {
     cornerStaircase.setAttribute("rx", "4");
     this.svg.appendChild(cornerStaircase);
 
-    // 绘制大的楼梯图标
     this.drawLadderIcon(822, 390);
   }
 
   drawBuildingDetails() {
-    // 窗户（外墙蓝色线条）
     const windows = [
       { x1: 80, y1: 50, x2: 150, y2: 50 },
       { x1: 180, y1: 50, x2: 250, y2: 50 },
@@ -491,7 +427,6 @@ class RealisticOfficeFloorPlan {
       this.svg.appendChild(windowLine);
     });
 
-    // 主入口 - 简化为红色标记线
     const entrance = document.createElementNS(this.svgNS, "rect");
     entrance.setAttribute("x", "465");
     entrance.setAttribute("y", "47");
@@ -502,9 +437,7 @@ class RealisticOfficeFloorPlan {
   }
 
   loadDeviceLocations() {
-    // 真实的设备位置分布 - 根据新布局调整坐标
     const deviceLocations = [
-      // 上半部分设备 - 确保在办公区域内（浅蓝色范围）
       {
         id: 1,
         name: "LAPTOP001",
@@ -590,7 +523,6 @@ class RealisticOfficeFloorPlan {
         borrower: "张小明",
       },
 
-      // 下半部分设备 - 确保在办公区域内（浅蓝色范围）
       {
         id: 7,
         name: "CAMERA013",
@@ -675,7 +607,6 @@ class RealisticOfficeFloorPlan {
         model: "Air 2S",
         borrower: null,
       },
-      // 新增设备 - 第二批，确保在办公区域内
       {
         id: 13,
         name: "LAPTOP013",
@@ -788,7 +719,6 @@ class RealisticOfficeFloorPlan {
         model: "RH2288H V5",
         borrower: null,
       },
-      // 新增设备 - 第三批，确保在办公区域内
       {
         id: 21,
         name: "PRINTER021",
@@ -929,7 +859,6 @@ class RealisticOfficeFloorPlan {
         model: "EOS R6",
         borrower: "李九",
       },
-      // 新增设备 - 第四批，确保在办公区域内
       {
         id: 31,
         name: "LAPTOP031",
@@ -1107,33 +1036,29 @@ class RealisticOfficeFloorPlan {
   }
 
   addRealisticDeviceMarker(device) {
-    // 创建设备标记组
     const group = document.createElementNS(this.svgNS, "g");
     group.setAttribute("class", "device-marker");
     group.setAttribute("data-device-id", device.id);
 
-    // 移除外圆环，直接使用设备图标背景
     const iconBg = document.createElementNS(this.svgNS, "circle");
     iconBg.setAttribute("cx", device.x);
     iconBg.setAttribute("cy", device.y);
-    iconBg.setAttribute("r", "8"); // 从10px减少到8px
+    iconBg.setAttribute("r", "8");
     iconBg.setAttribute("fill", this.getStatusColor(device.status));
     iconBg.setAttribute("stroke", "#fff");
     iconBg.setAttribute("stroke-width", "2");
     iconBg.setAttribute("filter", "url(#buildingShadow)");
     group.appendChild(iconBg);
 
-    // 设备图标
     const icon = document.createElementNS(this.svgNS, "text");
     icon.setAttribute("x", device.x);
     icon.setAttribute("y", device.y + 2);
     icon.setAttribute("text-anchor", "middle");
-    icon.setAttribute("font-size", "8"); // 从10px减少到8px
+    icon.setAttribute("font-size", "8");
     icon.setAttribute("fill", "#fff");
     icon.textContent = this.getDeviceIcon(device.type);
     group.appendChild(icon);
 
-    // 设备标签背景
     const labelBg = document.createElementNS(this.svgNS, "rect");
     labelBg.setAttribute("x", device.x - 20); // 从25px减少到20px
     labelBg.setAttribute("y", device.y + 12); // 从15px减少到12px
@@ -1145,7 +1070,6 @@ class RealisticOfficeFloorPlan {
     labelBg.setAttribute("rx", "6");
     group.appendChild(labelBg);
 
-    // 设备名称标签
     const label = document.createElementNS(this.svgNS, "text");
     label.setAttribute("x", device.x);
     label.setAttribute("y", device.y + 20); // 从24px减少到20px
@@ -1156,7 +1080,6 @@ class RealisticOfficeFloorPlan {
     label.textContent = device.name;
     group.appendChild(label);
 
-    // 添加交互效果
     group.style.cursor = "pointer";
     group.addEventListener("click", () => {
       this.showDeviceDetails(device);
@@ -1202,9 +1125,8 @@ class RealisticOfficeFloorPlan {
     return icons[type] || "📦";
   }
 
-  // 检查设备是否在电子围栏内
+  // 电子围栏判定
   isInFence(device) {
-    // 定义各区域的电子围栏范围
     const fences = {
       研发部: { x: 55, y: 55, width: 160, height: 160 },
       设计部: { x: 220, y: 55, width: 130, height: 160 },
@@ -1229,7 +1151,6 @@ class RealisticOfficeFloorPlan {
   }
 
   addLegendAndScale() {
-    // 图例
     const legend = document.createElement("div");
     legend.style.cssText = `
             position: absolute;
@@ -1267,7 +1188,6 @@ class RealisticOfficeFloorPlan {
 
     this.container.appendChild(legend);
 
-    // 比例尺
     const scale = document.createElement("div");
     scale.style.cssText = `
             position: absolute;
@@ -1293,7 +1213,6 @@ class RealisticOfficeFloorPlan {
   }
 
   showDeviceDetails(device) {
-    // 创建设备详情弹窗
     const modal = document.createElement("div");
     modal.style.cssText = `
             position: fixed;
@@ -1436,7 +1355,6 @@ class RealisticOfficeFloorPlan {
     modal.appendChild(content);
     document.body.appendChild(modal);
 
-    // 点击背景关闭
     modal.addEventListener("click", (e) => {
       if (e.target === modal) {
         modal.remove();
@@ -1514,14 +1432,12 @@ class RealisticOfficeFloorPlan {
         </ul>
     `;
 
-    // Create a clone of the map for the modal
     const mapClone = this.svg.cloneNode(true);
     mapClone.removeAttribute("width");
     mapClone.removeAttribute("height");
     mapClone.style.width = "100%";
     mapClone.style.height = "300px";
 
-    // Calculate trajectory bounding box
     const xCoords = trajectoryData.map(p => p.x);
     const yCoords = trajectoryData.map(p => p.y);
     const minX = Math.min(...xCoords) - 50;
@@ -1533,7 +1449,6 @@ class RealisticOfficeFloorPlan {
 
     mapClone.setAttribute("viewBox", `${minX} ${minY} ${viewBoxWidth} ${viewBoxHeight}`);
 
-    // Draw trajectory path on the cloned map
     const trajectoryPath = trajectoryData.map(p => `${p.x},${p.y}`).join("L");
     const path = document.createElementNS(this.svgNS, "path");
     path.setAttribute("d", `M${trajectoryPath}`);

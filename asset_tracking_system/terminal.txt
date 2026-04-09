@@ -1,49 +1,13 @@
-function showAlertSettings() {
-  const settingsHtml = `
-        <div class="modal-overlay" onclick="closeModal()">
-            <div class="modal-content" onclick="event.stopPropagation()">
-                <div class="modal-header">
-                    <h3>告警设置</h3>
-                    <button class="modal-close" onclick="closeModal()">&times;</button>
-                </div>
-                <div class="modal-body">
-                    <div class="form-group">
-                        <label>位置异常告警</label>
-                        <select class="form-control">
-                            <option>启用</option>
-                            <option>禁用</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label>设备离线告警</label>
-                        <select class="form-control">
-                            <option>启用</option>
-                            <option>禁用</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label>借用逾期告警</label>
-                        <select class="form-control">
-                            <option>启用</option>
-                            <option>禁用</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label>告警通知方式</label>
-                        <div>
-                            <label><input type="checkbox" checked> 系统通知</label><br>
-                            <label><input type="checkbox" checked> 邮件通知</label><br>
-                            <label><input type="checkbox"> 短信通知</label>
-                        </div>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button class="btn btn-primary" onclick="saveAlertSettings()">保存设置</button>
-                    <button class="btn btn-secondary" onclick="closeModal()">取消</button>
-                </div>
-            </div>
-        </div>
-    `;
-
-  document.body.insertAdjacentHTML("beforeend", formHtml);
-}
+'(miniconda3)'PS C:\Users\franc\Projects\sparklink2> python asset_tracking_system/seed.py
+Traceback (most recent call last):
+  File "C:\Users\franc\Projects\sparklink2\asset_tracking_system\seed.py", line 150, in <module>
+    seed_data()
+  File "C:\Users\franc\Projects\sparklink2\asset_tracking_system\seed.py", line 6, in seed_data
+    init_db()
+  File "C:\Users\franc\Projects\sparklink2\asset_tracking_system\database.py", line 15, in init_db
+    conn = get_db_connection()
+           ^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\franc\Projects\sparklink2\asset_tracking_system\database.py", line 9, in get_db_connection
+    conn = sqlite3.connect(DATABASE_PATH)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+sqlite3.OperationalError: unable to open database file
