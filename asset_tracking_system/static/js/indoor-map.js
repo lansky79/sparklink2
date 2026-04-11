@@ -1060,10 +1060,10 @@ class RealisticOfficeFloorPlan {
     group.appendChild(icon);
 
     const labelBg = document.createElementNS(this.svgNS, "rect");
-    labelBg.setAttribute("x", device.x - 20); // 从25px减少到20px
-    labelBg.setAttribute("y", device.y + 12); // 从15px减少到12px
-    labelBg.setAttribute("width", "40"); // 从50px减少到40px
-    labelBg.setAttribute("height", "12"); // 从14px减少到12px
+    labelBg.setAttribute("x", device.x - 20);
+    labelBg.setAttribute("y", device.y + 12);
+    labelBg.setAttribute("width", "40");
+    labelBg.setAttribute("height", "12");
     labelBg.setAttribute("fill", "rgba(255,255,255,0.95)");
     labelBg.setAttribute("stroke", "#ddd");
     labelBg.setAttribute("stroke-width", "1");
@@ -1072,9 +1072,9 @@ class RealisticOfficeFloorPlan {
 
     const label = document.createElementNS(this.svgNS, "text");
     label.setAttribute("x", device.x);
-    label.setAttribute("y", device.y + 20); // 从24px减少到20px
+    label.setAttribute("y", device.y + 20);
     label.setAttribute("text-anchor", "middle");
-    label.setAttribute("font-size", "6"); // 从7px减少到6px
+    label.setAttribute("font-size", "6");
     label.setAttribute("font-weight", "bold");
     label.setAttribute("fill", "#2c3e50");
     label.textContent = device.name;
