@@ -15,7 +15,7 @@ class RealisticOfficeFloorPlan {
 
   init() {
     this.container.innerHTML = '';
-    this.container.style.cssText = 'background:linear-gradient(135deg,#667eea 0%,#764ba2 100%);border-radius:12px;padding:20px;box-shadow:0 8px 32px rgba(0,0,0,0.1);position:relative;';
+    this.container.style.cssText = 'background:#2c3e50;border-radius:12px;padding:20px;box-shadow:0 8px 32px rgba(0,0,0,0.1);position:relative;';
 
     var title = document.createElement('div');
     title.style.cssText = 'color:#fff;font-size:18px;font-weight:600;margin-bottom:15px;text-align:center;text-shadow:0 2px 4px rgba(0,0,0,0.3);';
